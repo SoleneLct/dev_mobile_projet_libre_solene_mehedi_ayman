@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.o7planning.saeapplication.Exception.ChampsNonRempliExecption;
 import org.o7planning.saeapplication.Exception.MotdePasseDifferentException;
 import org.o7planning.saeapplication.Exception.MotdePasseTropFaibleException;
-import org.o7planning.saeapplication.Exception.pseudoDejaExistantException;
+import org.o7planning.saeapplication.Exception.PseudoDejaExistantException;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
@@ -66,7 +66,7 @@ public class InscriptionActivity extends AppCompatActivity {
             mUtilisateur = new Profil(pseudo.getText().toString());
             Toast.makeText(this, "Vous être bien inscrit!",
                     Toast.LENGTH_LONG).show();
-        } catch (pseudoDejaExistantException e) {
+        } catch (PseudoDejaExistantException e) {
             pseudo.setError("le pseudo choisi est déjà pris ! \nmerci d'en choisir un autre");
         } catch (ChampsNonRempliExecption e) {
             pseudo.setError("Merci de remplir tout les champs");
@@ -83,7 +83,7 @@ public class InscriptionActivity extends AppCompatActivity {
         }
     }
 
-    private void inscriptionValide() throws pseudoDejaExistantException,
+    private void inscriptionValide() throws PseudoDejaExistantException,
             MotdePasseDifferentException, MotdePasseTropFaibleException,
             ChampsNonRempliExecption {
 
