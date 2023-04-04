@@ -93,8 +93,7 @@ public class InscriptionActivity extends AppCompatActivity {
             throw new ChampsNonRempliExecption();
         if(motDePasse.getText().toString().length() < TAILLE_MOT_DE_PASSE)
             throw new MotdePasseTropFaibleException();
-        if
-        (!motDePasse.getText().toString().equals(confirmMotDePasse.getText().toString()))
+        if(!motDePasse.getText().toString().equals(confirmMotDePasse.getText().toString()))
         {
             throw new MotdePasseDifferentException();
         }
