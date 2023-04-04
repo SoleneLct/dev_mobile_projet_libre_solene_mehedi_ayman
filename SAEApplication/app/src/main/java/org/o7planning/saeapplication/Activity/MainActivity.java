@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.o7planning.saeapplication.R;
@@ -45,18 +43,25 @@ public class MainActivity extends AppCompatActivity {
         connexionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                seConnecter();
+                if(seConnecter()){
+
+                }
             }
         });
     }
 
-    private void seConnecter() {
-        if(pseudo.getText().toString().trim().isEmpty()
-                ||motDePasse.getText().toString().trim().isEmpty()){
+    private Boolean seConnecter() {
+        Boolean condition = true;
+        if(pseudo.getText().toString().trim().isEmpty()){
             pseudo.setError("Merci de remplir tout les champs");
             pseudo.requestFocus();
+            condition = false;
+        }
+        if (motDePasse.getText().toString().trim().isEmpty()) {
             motDePasse.setError("Merci de remplir tout les champs");
             motDePasse.requestFocus();
+            condition = false;
         }
+        return condition;
     }
 }

@@ -45,9 +45,6 @@ public class InscriptionActivity extends AppCompatActivity {
         lienActiviteConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent connexionActivity = new Intent(InscriptionActivity.this,
-//                        MainActivity.class);
-//                startActivity(connexionActivity);
                 finish();
             }
         });
