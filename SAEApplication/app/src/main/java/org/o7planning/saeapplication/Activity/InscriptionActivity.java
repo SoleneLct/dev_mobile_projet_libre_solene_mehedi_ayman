@@ -12,11 +12,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.o7planning.sae_dev.Exception.ChampsNonRempliExecption;
-import org.o7planning.sae_dev.Exception.MotdePasseDifferentException;
-import org.o7planning.sae_dev.Exception.MotdePasseTropFaibleException;
-import org.o7planning.sae_dev.Exception.pseudoDejaExistantException;
-import org.o7planning.sae_dev.Modele.Profils;
+import org.o7planning.saeapplication.Exception.ChampsNonRempliExecption;
+import org.o7planning.saeapplication.Exception.MotdePasseDifferentException;
+import org.o7planning.saeapplication.Exception.MotdePasseTropFaibleException;
+import org.o7planning.saeapplication.Exception.pseudoDejaExistantException;
+import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class InscriptionActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class InscriptionActivity extends AppCompatActivity {
     private EditText confirmMotDePasse;
     private Button inscriptionButton;
     private TextView lienActiviteConnection;
-    protected Profils mUtilisateur;
+    protected Profil mUtilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class InscriptionActivity extends AppCompatActivity {
     private void inscrire() {
         try {
             inscriptionValide();
-            mUtilisateur = new Profils(pseudo.getText().toString());
+            mUtilisateur = new Profil(pseudo.getText().toString());
             Toast.makeText(this, "Vous être bien inscrit!",
                     Toast.LENGTH_LONG).show();
         } catch (pseudoDejaExistantException e) {
