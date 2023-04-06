@@ -5,7 +5,6 @@ public class Image {
     private int id;
     private String nom;
 
-
     public void setId_profils(int id_profils) {
         this.id_profils = id_profils;
     }
