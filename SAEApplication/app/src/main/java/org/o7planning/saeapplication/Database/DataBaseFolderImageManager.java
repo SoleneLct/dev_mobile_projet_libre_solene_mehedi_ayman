@@ -17,12 +17,12 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "Folder_Image_Manager";
+    public static final String DATABASE_NAME = "ProjectManager";
     // Table name: FolderImages
-    private static final String TABLE_FOLDER_IMAGE = "FolderImagesFolder";
-    private static final String COLUMN_FOLDER_IMAGE_ID ="Folder_Id";
-    private static final String COLUMN_FOLDER_IMAGE_NOM ="Folder_Nom";
-    private static final String COLUMN_FOLDER_IMAGE_ID_PROFIL = "Folder_Profil_Id";
+    public static final String TABLE_FOLDER_IMAGE = "FolderImages";
+    public static final String COLUMN_FOLDER_IMAGE_ID ="Folder_Id";
+    public static final String COLUMN_FOLDER_IMAGE_NOM ="Folder_Nom";
+    public static final String COLUMN_FOLDER_IMAGE_ID_PROFIL = "Folder_Profil_Id";
 
     public DataBaseFolderImageManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,10 +33,14 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
+        String userForeinKey= "FOREIGN KEY ("+COLUMN_FOLDER_IMAGE_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+")";
+
         String script = "CREATE TABLE " + TABLE_FOLDER_IMAGE + "("
                 + COLUMN_FOLDER_IMAGE_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_FOLDER_IMAGE_NOM + " TEXT,"
-                + COLUMN_FOLDER_IMAGE_ID_PROFIL + " INTEGER"+ ")";
+                + COLUMN_FOLDER_IMAGE_ID_PROFIL + " INTEGER"
+                + userForeinKey
+                + ")";
         // Execute Script.
         db.execSQL(script);
     }

@@ -17,12 +17,13 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "Image_Manager";
-    // Table name: FOLDER
+    private static final String DATABASE_NAME = "ProjectManager";
+
+    // Table name: Image
     private static final String TABLE_IMAGES = "Images";
     private static final String COLUMN_IMAGES_ID ="Images_Id";
     private static final String COLUMN_IMAGES_NOM ="Images_Nom";
-
+    private static final String COLUMN_IMAGES_TABLE ="Images_Table ";
     private static final String COLUMN_IMAGES_ID_PROFIL = "Images_Profil_Id";
 
     public DataBaseImageManager(Context context) {
@@ -33,10 +34,16 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
+        String folderforeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_TABLE+" ) REFERENCES "+DataBaseFolderImageManager.TABLE_FOLDER_IMAGE+"("+DataBaseFolderImageManager.COLUMN_FOLDER_IMAGE_ID+")";
+        String userForeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+")";
         String script = "CREATE TABLE " + TABLE_IMAGES + "("
                 + COLUMN_IMAGES_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_IMAGES_NOM + " TEXT,"
-                + COLUMN_IMAGES_ID_PROFIL + " INTEGER"+ ")";
+                + COLUMN_IMAGES_TABLE + "INTEGER,"
+                + COLUMN_IMAGES_ID_PROFIL + " INTEGER"
+                + userForeinKey
+                + folderforeinKey
+                + ")";
         // Execute Script.
         db.execSQL(script);
     }
@@ -50,7 +57,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     }
 
     public void addImage(Image image) {
-        Log.i(TAG, "MyDatabaseHelper.addNote ... " + image.getNom());
+        Log.i(TAG, "MyDatabaseHelper.addImage ... " + image.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_IMAGES_NOM, image.getNom());
@@ -62,7 +69,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         db.close();
     }
     public Image getImage(int id) {
-        Log.i(TAG, "MyDatabaseHelper.getNote ... " + id);
+        Log.i(TAG, "MyDatabaseHelper.getImage ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_IMAGES,
                         new String[] {
@@ -85,7 +92,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     }
     public List<Image> getAllImages() {
         Log.i(TAG, "MyDatabaseHelper.getAllImages ... " );
-        List<Image> noteList = new ArrayList<Image>();
+        List<Image> list = new ArrayList<Image>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_IMAGES;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -97,12 +104,12 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                 image.setNom(cursor.getString(1));
                 image.setImage(cursor.getBlob(2));
                 image.setId_profils(cursor.getInt(3));
-                // Adding note to list
-                noteList.add(image);
+                // Adding image to list
+                list.add(image);
             } while (cursor.moveToNext());
         }
-        // return note list
-        return noteList;
+        // return image list
+        return list;
     }
     public int getImagesCount() {
         Log.i(TAG, "MyDatabaseHelper.getImagesCount ... " );
@@ -125,7 +132,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                 new String[]{String.valueOf(image.getId())});
     }
     public void deleteImage(Image image) {
-        Log.i(TAG, "MyDatabaseHelper.updateNote ... " + image.getNom() );
+        Log.i(TAG, "MyDatabaseHelper.deleteImage ... " + image.getNom() );
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_IMAGES, COLUMN_IMAGES_ID + " = ?",
                 new String[] { String.valueOf(image.getId()) });

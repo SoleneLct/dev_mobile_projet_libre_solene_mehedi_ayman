@@ -17,13 +17,13 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "Profils_Manager";
+    public static final String DATABASE_NAME = "ProjectManager";
     // Table name: Profils.
-    private static final String TABLE_PROFILS = "Profils";
-    private static final String COLUMN_PROFILS_ID ="Profils_Id";
-    private static final String COLUMN_PROFILS_NOM ="Profils_Nom";
-    private static final String COLUMN_PROFILS_MPD ="Profils_Mot_de_Passe";
-    private static final String COLUMN_PROFILS_PRENOM ="Profils_Prenom";
+    public static final String TABLE_PROFILS = "Profils";
+    public static final String COLUMN_PROFILS_ID ="Profils_Id";
+    public static final String COLUMN_PROFILS_NOM ="Profils_Nom";
+    public static final String COLUMN_PROFILS_MPD ="Profils_Mot_de_Passe";
+    public static final String COLUMN_PROFILS_PRENOM ="Profils_Prenom";
 
     public DataBaseProfilsManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
