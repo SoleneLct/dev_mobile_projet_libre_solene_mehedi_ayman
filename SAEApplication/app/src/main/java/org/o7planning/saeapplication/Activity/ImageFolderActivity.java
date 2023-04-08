@@ -30,7 +30,9 @@ public class ImageFolderActivity extends AppCompatActivity {
         addFolder = findViewById(R.id.addFolder);
         addImage = findViewById(R.id.addImage);
         foldersRecyclerView = findViewById(R.id.foldersRecyclerView);
-        createPopup();
+        addFolder.setOnClickListener(
+                new AddFolderDialog(new AlertDialog.Builder(ImageFolderActivity.this),getLayoutInflater())
+        );
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,9 +40,5 @@ public class ImageFolderActivity extends AppCompatActivity {
             }
         });
 
-    }
-    public void createPopup(){
-
-        addFolder.setOnClickListener(new AddFolderDialog( new AlertDialog.Builder(ImageFolderActivity.this),getLayoutInflater()));
     }
 }

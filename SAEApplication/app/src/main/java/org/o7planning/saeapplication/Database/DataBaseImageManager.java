@@ -17,8 +17,8 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "Profils_Manager";
-    // Table name: Images
+    private static final String DATABASE_NAME = "Image_Manager";
+    // Table name: FOLDER
     private static final String TABLE_IMAGES = "Images";
     private static final String COLUMN_IMAGES_ID ="Images_Id";
     private static final String COLUMN_IMAGES_NOM ="Images_Nom";
