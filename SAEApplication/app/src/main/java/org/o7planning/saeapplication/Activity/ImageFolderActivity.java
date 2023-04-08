@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import org.o7planning.saeapplication.Activity.Other.AddFolderDialog;
+import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class ImageFolderActivity extends AppCompatActivity {
@@ -19,19 +20,21 @@ public class ImageFolderActivity extends AppCompatActivity {
     private ImageButton accountButton;
     private ImageButton logoutButton;
     private RecyclerView foldersRecyclerView;
+    private Profil user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_folder);
 
+        Profil user = (Profil) getIntent().getSerializableExtra("userObject");
         accountButton = findViewById(R.id.account);
         logoutButton = findViewById(R.id.logout);
         addFolder = findViewById(R.id.addFolder);
         addImage = findViewById(R.id.addImage);
         foldersRecyclerView = findViewById(R.id.foldersRecyclerView);
         addFolder.setOnClickListener(
-                new AddFolderDialog(new AlertDialog.Builder(ImageFolderActivity.this),getLayoutInflater())
+                new AddFolderDialog(new AlertDialog.Builder(ImageFolderActivity.this),getLayoutInflater(),user)
         );
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override

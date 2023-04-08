@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.o7planning.saeapplication.Database.DataBaseProfilsManager;
+import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,10 +46,29 @@ public class MainActivity extends AppCompatActivity {
         connexionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(seConnecter() || true){
-                    Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
-                    startActivity(imageFolderActivity);
-//                }
+                if(seConnecter()){
+                    String ps = pseudo.getText().toString().trim();
+                    String mdp = motDePasse.getText().toString().trim();
+                    Profil user = new DataBaseProfilsManager(MainActivity.this).getProfilsByNameAndMdp(ps,mdp);
+
+                    if(user != null){
+                        Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
+                        imageFolderActivity.putExtra("userObject" ,user);
+                        startActivity(imageFolderActivity);
+                    }else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "Utilisateur non trouvé\nInscrivez vous !", Toast.LENGTH_SHORT);
+                        View toastView = toast.getView();
+                        toastView.setBackgroundColor(Color.RED);
+                        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                        toastMessage.setTextColor(Color.WHITE);
+                        toast.show();
+                        pseudo.setError("");
+                        pseudo.requestFocus();
+                        motDePasse.setText("");
+                        motDePasse.setError("Réinsérer votre mot de passe");
+                        motDePasse.requestFocus();
+                    }
+                }
             }
         });
     }

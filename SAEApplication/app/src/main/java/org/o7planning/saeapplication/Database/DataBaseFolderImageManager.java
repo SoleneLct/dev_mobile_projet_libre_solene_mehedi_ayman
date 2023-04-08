@@ -109,6 +109,31 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
         return List;
     }
 
+    public Folder getFolderImage(int id,String name) {
+        Log.i(TAG, "MyDatabaseHelper.getFolderImage ... " + id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_FOLDER_IMAGE,
+                new String[] {
+                        COLUMN_FOLDER_IMAGE_ID,
+                        COLUMN_FOLDER_IMAGE_NOM,
+                        COLUMN_FOLDER_IMAGE_ID_PROFIL
+                },
+                COLUMN_FOLDER_IMAGE_ID + "=? AND " + COLUMN_FOLDER_IMAGE_NOM + "=?",
+                new String[] { String.valueOf(id), name },
+                null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Folder folderImage = new Folder(
+                Integer.parseInt(cursor.getString(0)),//id
+                cursor.getString(1),//nom
+                Integer.parseInt(cursor.getString(3))//id profils
+        );
+
+        // return folderImage
+        return folderImage;
+    }
+
     public int getFolderImagesCount() {
         Log.i(TAG, "MyDatabaseHelper.getFolderImagesCount ... " );
         String countQuery = "SELECT * FROM " + TABLE_FOLDER_IMAGE;

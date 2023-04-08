@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.o7planning.saeapplication.Activity.ImageFolderActivity;
+import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class AddFolderDialog implements View.OnClickListener{
@@ -23,7 +25,9 @@ public class AddFolderDialog implements View.OnClickListener{
 
     private View dialogView;
 
-    public AddFolderDialog(AlertDialog.Builder builder, LayoutInflater inflater) {
+    private Profil profil;
+
+    public AddFolderDialog(AlertDialog.Builder builder, LayoutInflater inflater, Profil profil) {
         View dialogView = inflater.inflate(R.layout.other_add_popup_folder, null);
         builder.setView(dialogView);
 
@@ -58,7 +62,5 @@ public class AddFolderDialog implements View.OnClickListener{
             folderNameInput.setError("Merci de remplir tout les champs");
             folderNameInput.requestFocus();
         }
-        // else if find in bd
-        // else create
     }
 }

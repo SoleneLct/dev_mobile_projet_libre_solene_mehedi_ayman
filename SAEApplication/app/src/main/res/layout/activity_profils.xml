@@ -1,29 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".Activity.ProfilActivity">
 
-    <Button
-        android:id="@+id/retour"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="retour"
-        tools:ignore="MissingConstraints" />
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="380dp"
-        android:layout_height="631dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/profil_pseudo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToChange"
+            android:gravity="center"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/profil_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="userimage"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="60dp"
+            android:background="@null"
+            android:src="@drawable/user_photo"/>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <TextView-->
+<!--        android:id="@+id/pseudoTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Pseudo :"-->
+<!--        android:textSize="16sp" />-->
+<!--    <EditText-->
+<!--        android:id="@+id/pseudoTextViewInput"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:inputType="text"-->
+<!--        android:minHeight="48dp"-->
+<!--        android:textColorHint="#BDBDBD"-->
+<!--        android:textSize="16sp" />-->
+
+    <TextView
+        android:id="@+id/profil_nom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom : "
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+    <EditText
+        android:id="@+id/profil_nom_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:textSize="20sp"
+        android:textColorHint="#BDBDBD"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:id="@+id/profil_prenom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prenom :"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+    <EditText
+        android:id="@+id/profil_prenom_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:textColorHint="#BDBDBD"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <Button
+        android:id="@+id/save_or_quit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/purple_200"
+        android:gravity="center"
+        android:text="Sauvegarder et quitter"
+        android:textColor="#311B92" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:id="@+id/exit"
+            android:text="Quitter"
+            />
+</LinearLayout>

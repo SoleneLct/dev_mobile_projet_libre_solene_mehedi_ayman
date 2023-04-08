@@ -11,13 +11,32 @@
     android:orientation="vertical"
     tools:context=".Activity.InscriptionActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="75dp"
-        android:text="Inscription"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inscription"
+            android:gravity="center"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/addImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="userimage"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="60dp"
+            android:background="@null"
+            android:src="@drawable/user_photo"/>
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/incription_pseudo"
@@ -25,21 +44,41 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-
-        android:autofillHints="incription_username"
+        android:autofillHints="incription_pseudo"
         android:hint="Entrez votre pseudo"
         android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"/>
 
     <EditText
-        android:id="@+id/incription_adresse"
+        android:id="@+id/incription_prenom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Entrez votre adresse"
+        android:autofillHints="incription_username"
+        android:hint="Entrez votre prenom"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/incription_nom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Entrez votre nom"
         android:inputType="textEmailAddress"
         android:minHeight="48dp" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/incription_tel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:hint="Entrez votre Numero de telephone"-->
+<!--        android:inputType="phone"-->
+<!--        android:minHeight="48dp" />-->
 
     <EditText
         android:id="@+id/incription_mot_de_passe"

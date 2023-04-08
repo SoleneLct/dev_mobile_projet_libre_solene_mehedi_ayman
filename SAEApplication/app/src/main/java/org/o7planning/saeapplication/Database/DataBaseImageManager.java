@@ -60,9 +60,9 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addImage ... " + image.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_IMAGES_TABLE, image.getId_table());
         values.put(COLUMN_IMAGES_NOM, image.getNom());
         values.put(COLUMN_IMAGES_ID_PROFIL, image.getId_profils());
-
         // Inserting Row
         db.insert(TABLE_IMAGES, null, values);
         // Closing database connection
@@ -75,7 +75,9 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                         new String[] {
                                 COLUMN_IMAGES_ID,
                                 COLUMN_IMAGES_NOM,
-                                COLUMN_IMAGES_ID_PROFIL}, COLUMN_IMAGES_ID + "=?",
+                                COLUMN_IMAGES_TABLE,
+                                COLUMN_IMAGES_ID_PROFIL},
+                COLUMN_IMAGES_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -84,7 +86,8 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                 Integer.parseInt(cursor.getString(0)),//id
                 cursor.getString(1),//nom
                 cursor.getBlob(2),//Image
-                Integer.parseInt(cursor.getString(3))//id profils
+                Integer.parseInt(cursor.getString(3)),//id table
+                Integer.parseInt(cursor.getString(4))//id profils
         );
 
         // return Image
@@ -100,10 +103,13 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Image image = new Image(Integer.parseInt(cursor.getString(0)));
-                image.setNom(cursor.getString(1));
-                image.setImage(cursor.getBlob(2));
-                image.setId_profils(cursor.getInt(3));
+                Image image = new Image(
+                        Integer.parseInt(cursor.getString(0)),//id
+                        cursor.getString(1),//nom
+                        cursor.getBlob(2),//Image
+                        Integer.parseInt(cursor.getString(3)),//id table
+                        Integer.parseInt(cursor.getString(4))//id profils
+                );
                 // Adding image to list
                 list.add(image);
             } while (cursor.moveToNext());
@@ -125,6 +131,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.updateImage ... " + image.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_IMAGES_TABLE, image.getId_table());
         values.put(COLUMN_IMAGES_NOM, image.getNom());
         values.put(COLUMN_IMAGES_ID_PROFIL, image.getId_profils());
         // updating row
