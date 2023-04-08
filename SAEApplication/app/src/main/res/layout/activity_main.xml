@@ -10,7 +10,6 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
@@ -19,6 +18,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="50dp"
         android:text="Connexion"
+        android:textColor="#BDBDBD"
         android:textSize="34sp"
         android:textStyle="bold" />
 
@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-
         android:autofillHints="connexion_username"
         android:hint="Entrez votre pseudo"
         android:inputType="textPersonName"

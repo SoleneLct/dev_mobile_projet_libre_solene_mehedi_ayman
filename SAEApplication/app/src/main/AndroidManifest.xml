@@ -18,6 +18,9 @@
             android:name=".Activity.InscriptionActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.ImageFolderActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>

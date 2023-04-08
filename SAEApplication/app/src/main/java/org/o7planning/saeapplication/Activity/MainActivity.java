@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         connexionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(seConnecter()){
+//                if(seConnecter() || true){
                     Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
                     startActivity(imageFolderActivity);
-                }
+//                }
             }
         });
     }

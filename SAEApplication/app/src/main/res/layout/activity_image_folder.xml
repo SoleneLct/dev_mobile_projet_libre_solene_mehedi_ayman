@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="#303030"
+    android:padding="10dp"
     tools:context=".Activity.ImageFolderActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#d6d7d7"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -22,7 +23,8 @@
             android:layout_height="50dp"
             android:contentDescription="logout"
             android:scaleType="fitCenter"
-            android:src="@drawable/account" />
+            android:src="@drawable/account"
+            android:background="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +33,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Gestionnnaire de d'image"
-            android:textColor="#455A64" />
+            android:textColor="#d6d7d7"
+            android:textSize="20sp"/>
 
         <ImageButton
             android:id="@+id/logout"
@@ -39,7 +42,8 @@
             android:layout_height="50dp"
             android:contentDescription="logout"
             android:scaleType="fitCenter"
-            android:src="@drawable/disconnect" />
+            android:src="@drawable/disconnect"
+            android:background="@null" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,29 +52,30 @@
         android:orientation="horizontal"
         android:padding="8dp">
         <ImageButton
+            android:id="@+id/addImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="logout"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="60dp"
+            android:background="@null"
+            android:src="@drawable/add_image" />
+        <ImageButton
             android:id="@+id/addFolder"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="logout"
-            android:background="00000"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:layout_marginRight="60dp"
-            android:src="@drawable/addImage" />
-        <ImageButton
-            android:id="@+id/addImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="00000"
-            android:contentDescription="logout"
+            android:background="@null"
             android:scaleType="fitCenter"
             android:layout_marginLeft="60dp"
-            android:src="@drawable/addFolder" />
+            android:src="@drawable/add_folder" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/foldersRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="596dp"
+        android:layout_height="553dp"
         android:layout_margin="16dp"
         android:background="#FFFFFF"
         android:padding="8dp" />
