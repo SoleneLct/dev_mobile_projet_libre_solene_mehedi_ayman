@@ -21,7 +21,7 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
     // Table name: Profils.
     public static final String TABLE_PROFILS = "Profils";
     public static final String COLUMN_PROFILS_ID ="Profils_Id";
-    public static final String COLUMN_PROFILS_PSEUDO ="Profils_Nom";
+    public static final String COLUMN_PROFILS_PSEUDO ="Profils_Pseudo";
     public static final String COLUMN_PROFILS_NOM ="Profils_Nom";
     public static final String COLUMN_PROFILS_MPD ="Profils_Mot_de_Passe";
     public static final String COLUMN_PROFILS_PRENOM ="Profils_Prenom";
@@ -100,10 +100,10 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                         COLUMN_PROFILS_NOM,
                         COLUMN_PROFILS_PRENOM,
                         COLUMN_PROFILS_MPD},
-                COLUMN_PROFILS_PSEUDO + "=? " + COLUMN_PROFILS_MPD + "=?",
+                COLUMN_PROFILS_PSEUDO + "=? and " + COLUMN_PROFILS_MPD + "=?",
                 new String[] { pseudo, mdp }, null, null, null, null);
-        if (cursor != null){
-            cursor.moveToFirst();
+
+        if (cursor != null && cursor.moveToFirst()) { // Vérification du curseur
             profil = new Profil(
                     Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1),
@@ -111,6 +111,7 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                     cursor.getString(3),
                     cursor.getString(4));
         }
+        cursor.close();
         // return profil
         return profil;
     }

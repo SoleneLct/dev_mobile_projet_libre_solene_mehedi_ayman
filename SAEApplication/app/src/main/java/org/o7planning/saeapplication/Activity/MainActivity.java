@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,17 +57,11 @@ public class MainActivity extends AppCompatActivity {
                         imageFolderActivity.putExtra("userObject" ,user);
                         startActivity(imageFolderActivity);
                     }else{
-                        Toast toast = Toast.makeText(getApplicationContext(), "Utilisateur non trouvé\nInscrivez vous !", Toast.LENGTH_SHORT);
-                        View toastView = toast.getView();
-                        toastView.setBackgroundColor(Color.RED);
-                        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
-                        toastMessage.setTextColor(Color.WHITE);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Utilisateur inconnu Vous inscrire ?", Toast.LENGTH_SHORT);
                         toast.show();
-                        pseudo.setError("");
+                        pseudo.setError("Utilisateur non trouvé\nInscrivez vous !");
                         pseudo.requestFocus();
                         motDePasse.setText("");
-                        motDePasse.setError("Réinsérer votre mot de passe");
-                        motDePasse.requestFocus();
                     }
                 }
             }
