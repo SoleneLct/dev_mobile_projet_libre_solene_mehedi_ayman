@@ -1,8 +1,10 @@
 package org.o7planning.saeapplication.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +23,11 @@ import org.o7planning.saeapplication.R;
 
 public class ProfilActivity extends AppCompatActivity {
 
+    public static final int RESULT_CODE_ACTIVITY = 3;
+
     private static final int TAILLE_MOT_DE_PASSE = 8;
+    public static final String MODIFICATION_INTENT_EXTRA = "MODIFICATION_INTENT_EXTRA";
+    private static boolean MODIFICATION = false;
     private TextView pseudo;
     private EditText nom;
     private EditText prenom;
@@ -65,7 +71,9 @@ public class ProfilActivity extends AppCompatActivity {
     }
 
     private void finishActivity(){
-        pseudo.setText("");
+        Intent intent = new Intent();
+        intent.putExtra(MODIFICATION_INTENT_EXTRA,MODIFICATION);
+        setResult(RESULT_OK, intent);
         nom.setText("");
         prenom.setText("");
         finish();
@@ -73,46 +81,66 @@ public class ProfilActivity extends AppCompatActivity {
 
     private void modificationGestion() {
         try {
-            if(nom.getText().toString() != mUtilisateur.getNom()
-                || prenom.getText().toString() != mUtilisateur.getPrenom()){
-                modificationValide();
-            }else {
-                Toast toast = Toast.makeText(this, "Vous quitter sans modifiction", Toast.LENGTH_SHORT);
-                toast.getView().setBackgroundColor(Color.BLUE);
-                TextView toastTextView = toast.getView().findViewById(android.R.id.message);
-                toastTextView.setTextColor(Color.WHITE);
+            String nom = this.nom.getText().toString().trim();
+            String prenom = this.prenom.getText().toString().trim();
+
+            if( nom.equals(mUtilisateur.getNom().trim()) && prenom.equals(mUtilisateur.getPrenom().trim())){
+                Toast toast = Toast.makeText(this, "Vous quitter SANS modifiction", Toast.LENGTH_SHORT);
                 toast.show();
 
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                finishActivity();
-                            }
-                        },
-                        Toast.LENGTH_SHORT
-                );
+                this.MODIFICATION = false;
+            }else {
+                modificationValide();
+
+                DataBaseProfilsManager db = new DataBaseProfilsManager(this);
+
+                mUtilisateur.setNom(this.nom.getText().toString().trim());
+                mUtilisateur.setPrenom(this.prenom.getText().toString().trim());
+
+                db.updateProfil(mUtilisateur);
+
+                Toast toast = Toast.makeText(this, "Vous quitter AVEC modifiction", Toast.LENGTH_SHORT);
+                toast.show();
+
+                this.MODIFICATION = true;
+
+                finishActivity();
             }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finishActivity();
+                }
+            }, Toast.LENGTH_SHORT);
         } catch (PseudoDejaExistantException e) {
             pseudo.setText("");
             pseudo.requestFocus();
             pseudo.setError("le pseudo choisi est déjà pris ! \nmerci d'en choisir un autre");
         } catch (ChampsNonRempliExecption e) {
-            pseudo.setError("Vous avez modifier merci de remplir ce champs");
-            pseudo.requestFocus();
+            Toast toast = Toast.makeText(getApplicationContext(), "Modification impossible", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
     private void modificationValide() throws PseudoDejaExistantException,
             ChampsNonRempliExecption {
         if(pseudo.getText().toString().trim().isEmpty()
-                || nom.getText().toString().trim().isEmpty()
-                || prenom.getText().toString().trim().isEmpty())
+            || nom.getText().toString().trim().isEmpty()
+            || prenom.getText().toString().trim().isEmpty()){
+            if(nom.getText().toString().trim().isEmpty())
+                nom.setError("Vous avez modifier merci de remplir ce champs");
+            if(pseudo.getText().toString().trim().isEmpty())
+                pseudo.setError("Vous avez modifier merci de remplir ce champs");
+            if(prenom.getText().toString().trim().isEmpty())
+                prenom.setError("Vous avez modifier merci de remplir ce champs");
             throw new ChampsNonRempliExecption();
+        }
 
-        Profil user = new DataBaseProfilsManager(ProfilActivity.this)
-                .getProfilsByNameAndMdp(pseudo.getText().toString(),mUtilisateur.getMot_de_passe().toString());
-        if(user != null)
-            throw new PseudoDejaExistantException();
+        if(!pseudo.getText().toString().trim().equals(mUtilisateur.getPseudo())) {
+            Profil user = new DataBaseProfilsManager(ProfilActivity.this)
+                    .getProfilsByNameAndMdp(pseudo.getText().toString(), mUtilisateur.getMot_de_passe());
+            if (user != null)
+                throw new PseudoDejaExistantException();
+        }
     }
 }

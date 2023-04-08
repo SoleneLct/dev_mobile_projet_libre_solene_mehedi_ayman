@@ -15,8 +15,8 @@ import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class AddFolderDialog implements View.OnClickListener{
-    private AlertDialog alertDialog ;
 
+    private AlertDialog alertDialog ;
     private TextView dialogTitle;
     private TextView folderNameLabel;
     private EditText folderNameInput;

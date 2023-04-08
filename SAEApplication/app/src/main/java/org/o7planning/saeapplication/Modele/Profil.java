@@ -11,7 +11,6 @@ public class Profil implements Serializable {
     private String mot_de_passe;
 
     public Profil(String pseudo ,String nom, String prenom, String mot_de_passe) {
-        this.id = id;
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;

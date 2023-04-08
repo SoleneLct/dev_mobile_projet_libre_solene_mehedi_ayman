@@ -43,6 +43,18 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                 + ")";
         // Execute Script.
         db.execSQL(script);
+        defaultUser();
+    }
+    public void defaultUser(){
+        if(this.getProfilsByNameAndMdp("user","12345")==null){
+            Profil user = new Profil("user","userName","userFirstName","12345");
+            this.addProfils(user);
+        }
+        if(this.getProfilsByNameAndMdp("admin","admin12345")==null){
+            Profil admin = new Profil("admin","admin1","admin","admin12345");
+            this.addProfils(admin);
+        }
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -131,8 +143,6 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3),
                         cursor.getString(4));;
-                profil.setPrenom(cursor.getString(1));
-                profil.setMot_de_passe(cursor.getString(2));
                 // Adding profil to list
                 list.add(profil);
             } while (cursor.moveToNext());

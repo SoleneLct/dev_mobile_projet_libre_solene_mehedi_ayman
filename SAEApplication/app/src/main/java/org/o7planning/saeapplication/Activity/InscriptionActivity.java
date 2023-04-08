@@ -22,7 +22,7 @@ import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class InscriptionActivity extends AppCompatActivity {
-
+    public static final int RESULT_CODE_ACTIVITY = 1;
     private static final int TAILLE_MOT_DE_PASSE = 8;
     private EditText pseudo;
     private EditText nom;
@@ -75,30 +75,22 @@ public class InscriptionActivity extends AppCompatActivity {
         finish();
     }
     private void inscription(){
-        String pseudo = this.pseudo.getText().toString();
-        String nom = this.nom.getText().toString();
-        String prenom = this.prenom.getText().toString();
+        String pseudo = this.pseudo.getText().toString().trim();
+        String nom = this.nom.getText().toString().trim();
+        String prenom = this.prenom.getText().toString().trim();
         String motDePasse = this.motDePasse.getText().toString();
         this.mUtilisateur = new Profil(pseudo,nom,prenom,motDePasse);
 
         DataBaseProfilsManager db = new DataBaseProfilsManager(this);
         db.addProfils(mUtilisateur);
-
         Toast toast = Toast.makeText(this, "Vous êtes bien inscrit", Toast.LENGTH_SHORT);
-        toast.getView().setBackgroundColor(Color.BLUE);
-        TextView toastTextView = toast.getView().findViewById(android.R.id.message);
-        toastTextView.setTextColor(Color.WHITE);
         toast.show();
-
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        finishActivity();
-                    }
-                },
-                Toast.LENGTH_SHORT
-        );
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finishActivity();
+            }
+        }, Toast.LENGTH_SHORT);
     }
     private void inscriptionGestion() {
         try {

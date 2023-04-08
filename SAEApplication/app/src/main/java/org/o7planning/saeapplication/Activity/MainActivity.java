@@ -18,7 +18,7 @@ import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final int RESULT_CODE_ACTIVITY = 0;
     private EditText pseudo;
     private EditText motDePasse;
     private Button connexionButton;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new DataBaseProfilsManager(MainActivity.this).defaultUser();
         pseudo = (EditText) findViewById(R.id.connexion_pseudo);
         motDePasse = (EditText) findViewById(R.id.connexion_mot_de_passe);
         connexionButton = (Button) findViewById(R.id.connexionButton);
@@ -51,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
                     String ps = pseudo.getText().toString().trim();
                     String mdp = motDePasse.getText().toString().trim();
                     Profil user = new DataBaseProfilsManager(MainActivity.this).getProfilsByNameAndMdp(ps,mdp);
-
                     if(user != null){
                         Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
                         imageFolderActivity.putExtra("userObject" ,user);
+                        motDePasse.setText("");
                         startActivity(imageFolderActivity);
                     }else{
                         Toast toast = Toast.makeText(getApplicationContext(), "Utilisateur inconnu Vous inscrire ?", Toast.LENGTH_SHORT);
