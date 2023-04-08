@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(seConnecter()){
-                    //Lance activiter pour voir les dossiers
+                    Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
+                    startActivity(imageFolderActivity);
                 }
             }
         });
