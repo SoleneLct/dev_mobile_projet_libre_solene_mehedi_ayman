@@ -90,8 +90,7 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                         COLUMN_PROFILS_MPD},
                 COLUMN_PROFILS_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null){
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()){
             profil = new Profil(
                     Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1),
@@ -173,8 +172,11 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         return db.update(TABLE_PROFILS, values, COLUMN_PROFILS_ID + " = ?",
                 new String[]{String.valueOf(profil.getId())});
     }
-    public void deleteProfil(Profil profil) {
+    public void deleteProfil(Profil profil,Context context) {
         Log.i(TAG, "MyDatabaseHelper.deleteProfil ... " + profil.getNom() );
+        new DataBaseImageManager(context).deleteAllImageByUserId(profil.getId());
+        new DataBaseFolderImageManager(context).deleteAllFolderByUserId(profil.getId(),context);
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PROFILS, COLUMN_PROFILS_ID + " = ?",
                 new String[] { String.valueOf(profil.getId()) });

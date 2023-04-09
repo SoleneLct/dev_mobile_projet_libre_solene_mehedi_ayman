@@ -2,63 +2,59 @@ package org.o7planning.saeapplication.Modele;
 
 public class Image {
 
-    private int id;
-    private String nom;
+    private int mId;
+    private String mNom;
+    private byte[] mImage;
+    private int mIdProfils;
+    private int mIdTable;
 
-    public void setId_profils(int id_profils) {
-        this.id_profils = id_profils;
-    }
-    private byte[] image;
-    private int id_profils;
-    private int id_table;
 
-    public int getId_table() {
-        return id_table;
+    public Image(String nom, byte[] image, int mIdTable, int mIdProfils) {
+        this.mNom = nom;
+        this.mImage = image;
+        this.mIdProfils = mIdProfils;
+        this.mIdTable = mIdTable;
     }
-
-    public void setId_table(int id_table) {
-        this.id_table = id_table;
-    }
-
-    public Image(int id, String nom,int id_table, int id_profils) {
-        this.id = id;
-        this.nom = nom;
-        this.id_profils = id_profils;
-        this.id_table = id_table;
-    }
-    public Image(int id, String nom, byte[] image, int id_table, int id_profil) {
-        this.id = id;
-        this.nom = nom;
-        this.image = image;
-        this.id_profils = id_profils;
-        this.id_table = id_table;
+    public Image(int id, String nom, byte[] image, int mIdTable, int id_profil) {
+        this.mId = id;
+        this.mNom = nom;
+        this.mImage = image;
+        this.mIdProfils = id_profil;
+        this.mIdTable = mIdTable;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public String getNom() {
-        return nom;
+        return mNom;
     }
 
     public byte[] getImage() {
-        return image;
+        return mImage;
+    }
+    public int getIdTable() {
+        return mIdTable;
+    }
+    public int getIdProfils() {
+        return mIdProfils;
     }
 
-    public int getId_profils() {
-        return id_profils;
-    }
     public void setId(int id) {
-        this.id = id;
+        this.mId = id;
     }
-
     public void setNom(String nom) {
-        this.nom = nom;
+        this.mNom = nom;
     }
-
     public void setImage(byte[] image) {
-        this.image = image;
+        this.mImage = image;
+    }
+    public void setIdProfils(int idProfils) {
+        this.mIdProfils = idProfils;
+    }
+    public void setIdTable(int idTable) {
+        this.mIdTable = idTable;
     }
 
 }
