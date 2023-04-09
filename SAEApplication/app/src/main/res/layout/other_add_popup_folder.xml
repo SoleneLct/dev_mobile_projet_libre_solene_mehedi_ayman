@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:padding="17dp"
     android:orientation="vertical"
     tools:context=".Activity.Other.AddFolderDialog">
 
@@ -14,9 +15,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_margin="5dp"
+    android:layout_marginBottom="10dp"
     android:text="Ajouter votre propre dossier"
-    android:textSize="18sp"
+    android:textSize="20sp"
     android:textStyle="bold" />
 
 <TextView
@@ -24,7 +25,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Nom de votre dossier :"
-    android:textSize="16sp" />
+    android:textSize="16sp"
+    android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/folder_name_input"
