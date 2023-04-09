@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.o7planning.saeapplication.Database.DataBaseProfilsManager;
 import org.o7planning.saeapplication.Exception.ChampsNonRempliExecption;
-import org.o7planning.saeapplication.Exception.MotdePasseDifferentException;
-import org.o7planning.saeapplication.Exception.MotdePasseTropFaibleException;
 import org.o7planning.saeapplication.Exception.PseudoDejaExistantException;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;

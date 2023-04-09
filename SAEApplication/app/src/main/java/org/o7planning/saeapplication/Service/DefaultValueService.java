@@ -1,13 +1,19 @@
 package org.o7planning.saeapplication.Service;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import org.o7planning.saeapplication.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class LoginService {
+public class DefaultValueService {
     public static String keyTranslate(){
-        InputStream inputStream = LoginService.class.getResourceAsStream("/LoginApiJson/keyTranslate.json");
+        InputStream inputStream = DefaultValueService.class.getResourceAsStream("/LoginApiJson/keyTranslate.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
@@ -22,7 +28,7 @@ public class LoginService {
         return stringBuilder.toString();
     }
     public static String jsonConnectionString(){
-        InputStream inputStream = LoginService.class.getResourceAsStream("/LoginApiJson/saedevmobile.json");
+        InputStream inputStream = DefaultValueService.class.getResourceAsStream("/LoginApiJson/saedevmobile.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;

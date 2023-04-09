@@ -10,7 +10,7 @@ public class TranslationService {
 
 
     private TranslationService(){
-        this.translateOptions = TranslateOptions.newBuilder().setApiKey(LoginService.keyTranslate()).build();
+        this.translateOptions = TranslateOptions.newBuilder().setApiKey(DefaultValueService.keyTranslate()).build();
         this.translate = translateOptions.getService();
     }
     public TranslateOptions getTranslateOptions() {

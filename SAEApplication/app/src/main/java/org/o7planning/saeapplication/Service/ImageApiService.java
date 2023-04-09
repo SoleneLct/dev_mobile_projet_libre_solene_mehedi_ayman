@@ -21,7 +21,7 @@ public class ImageApiService {
     private ImageAnnotatorClient vision;
     private static ImageApiService _ImageApiService = null;
     private ImageApiService() throws IOException {
-        credentials = GoogleCredentials.fromStream(new FileInputStream(LoginService.jsonConnectionString()));
+        credentials = GoogleCredentials.fromStream(new FileInputStream(DefaultValueService.jsonConnectionString()));
         imageAnnotatorSettings = ImageAnnotatorSettings.newBuilder()
                         .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                         .build();

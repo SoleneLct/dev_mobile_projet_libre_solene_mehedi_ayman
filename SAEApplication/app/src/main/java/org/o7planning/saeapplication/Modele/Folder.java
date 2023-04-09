@@ -35,6 +35,4 @@ public class Folder {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-
 }

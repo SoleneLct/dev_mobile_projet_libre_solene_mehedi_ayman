@@ -17,7 +17,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "ProjectManager";
+    private static final String DATABASE_NAME = "ImageManager";
 
     // Table name: Image
     private static final String TABLE_IMAGES = "Images";
@@ -36,14 +36,14 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
+        String userForeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+"),";
         String folderforeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_TABLE+" ) REFERENCES "+DataBaseFolderImageManager.TABLE_FOLDER_IMAGE+"("+DataBaseFolderImageManager.COLUMN_FOLDER_IMAGE_ID+")";
-        String userForeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+")";
         String script = "CREATE TABLE " + TABLE_IMAGES + "("
                 + COLUMN_IMAGES_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_IMAGES_NOM + " TEXT,"
                 + COLUMN_IMAGES_BLOB + "BINARY,"
                 + COLUMN_IMAGES_TABLE + "INTEGER,"
-                + COLUMN_IMAGES_ID_PROFIL + " INTEGER"
+                + COLUMN_IMAGES_ID_PROFIL + " INTEGER,"
                 + userForeinKey
                 + folderforeinKey
                 + ")";
@@ -97,7 +97,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         // return Image
         return image;
     }
-    public List<Image> getAllImagesByUserId() {
+    public List<Image> getAllImages() {
         Log.i(TAG, "MyDatabaseHelper.getAllImages ... " );
         List<Image> list = new ArrayList<Image>();
         // Select All Query
@@ -127,6 +127,31 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         List<Image> List = new ArrayList<Image>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_IMAGES+" WHERE "+COLUMN_IMAGES_ID_PROFIL+"="+userId+";";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Image image = new Image(
+                        Integer.parseInt(cursor.getString(0)),//id
+                        cursor.getString(1),//nom
+                        cursor.getBlob(2),//Image
+                        Integer.parseInt(cursor.getString(3)),//id table
+                        Integer.parseInt(cursor.getString(4))//id profils
+                );
+                List.add(image);
+            } while (cursor.moveToNext());
+        }
+        // return folder list
+        return List;
+    }
+    public List<Image> getAllImagesByUserIdAndFolder(int userId,int folderId) {
+        Log.i(TAG, "MyDatabaseHelper.getAllImagesByUserId ... "+userId );
+        List<Image> List = new ArrayList<Image>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_IMAGES +
+                                " WHERE "+COLUMN_IMAGES_ID_PROFIL+"="+userId +
+                                " and "+COLUMN_IMAGES_TABLE+"="+folderId+";";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list

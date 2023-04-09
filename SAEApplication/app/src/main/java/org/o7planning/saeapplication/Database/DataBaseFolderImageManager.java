@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.o7planning.saeapplication.Modele.Folder;
+import org.o7planning.saeapplication.Modele.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    public static final String DATABASE_NAME = "ProjectManager";
-    // Table name: FolderImages
-    public static final String TABLE_FOLDER_IMAGE = "FolderImages";
+    public static final String DATABASE_NAME = "Folder_Manager";
+    // Table name: FolderImage
+    public static final String TABLE_FOLDER_IMAGE = "FolderImage";
     public static final String COLUMN_FOLDER_IMAGE_ID ="Folder_Id";
     public static final String COLUMN_FOLDER_IMAGE_NOM ="Folder_Nom";
     public static final String COLUMN_FOLDER_IMAGE_ID_PROFIL = "Folder_Profil_Id";
@@ -34,11 +35,10 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
         String userForeinKey= "FOREIGN KEY ("+COLUMN_FOLDER_IMAGE_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+")";
-
         String script = "CREATE TABLE " + TABLE_FOLDER_IMAGE + "("
                 + COLUMN_FOLDER_IMAGE_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_FOLDER_IMAGE_NOM + " TEXT,"
-                + COLUMN_FOLDER_IMAGE_ID_PROFIL + " INTEGER"
+                + COLUMN_FOLDER_IMAGE_ID_PROFIL + " INTEGER,"
                 + userForeinKey
                 + ")";
         // Execute Script.
@@ -52,7 +52,6 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
         // Create tables again
         onCreate(db);
     }
-
     public void addFolderImage(Folder folderImage) {
         Log.i(TAG, "MyDatabaseHelper.addFolderImage ... " + folderImage.getTitle());
         SQLiteDatabase db = this.getWritableDatabase();
@@ -86,18 +85,37 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
         // return folderImage
         return folderImage;
     }
-    public Folder getFolderImage(int userId,String name) {
-        Log.i(TAG, "MyDatabaseHelper.getFolderImage ... " + userId);
+    public Image getFirstFolderImage(int id) {
+        Log.i(TAG, "MyDatabaseHelper.getFolderImage ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_FOLDER_IMAGE,
                 new String[] {
                         COLUMN_FOLDER_IMAGE_ID,
                         COLUMN_FOLDER_IMAGE_NOM,
-                        COLUMN_FOLDER_IMAGE_ID_PROFIL
-                },
-                COLUMN_FOLDER_IMAGE_ID_PROFIL + "=? AND " + COLUMN_FOLDER_IMAGE_NOM + "=?",
-                new String[] { String.valueOf(userId), name },
-                null, null, null, null);
+                        COLUMN_FOLDER_IMAGE_ID_PROFIL}, COLUMN_FOLDER_IMAGE_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        Folder folderImage = null;
+        if (cursor != null && cursor.moveToFirst()){
+            folderImage = new Folder(
+                    Integer.parseInt(cursor.getString(0)),//id
+                    cursor.getString(1),//nom
+                    Integer.parseInt(cursor.getString(2))//id profils
+            );
+        }
+        // return folderImage
+        return null;
+    }
+
+    public Folder getFolderImage(int userId,String name) {
+        Log.i(TAG, "MyDatabaseHelper.getFolderImage ... " + userId);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_FOLDER_IMAGE,
+                new String[] {COLUMN_FOLDER_IMAGE_ID,
+                        COLUMN_FOLDER_IMAGE_NOM,
+                        COLUMN_FOLDER_IMAGE_ID_PROFIL},
+                COLUMN_FOLDER_IMAGE_ID_PROFIL + "=? and " + COLUMN_FOLDER_IMAGE_NOM + "=?",
+                new String[] { String.valueOf(userId), name }, null, null, null, null);
+
         Folder folderImage = null;
         if (cursor != null && cursor.moveToFirst()){
             folderImage = new Folder(
@@ -110,7 +128,7 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
         return folderImage;
     }
 
-    public List<Folder> getAllFolderImagesByUserId() {
+    public List<Folder> getAllFolderImages() {
         Log.i(TAG, "MyDatabaseHelper.getAllFolderImages ... " );
         List<Folder> List = new ArrayList<Folder>();
         // Select All Query

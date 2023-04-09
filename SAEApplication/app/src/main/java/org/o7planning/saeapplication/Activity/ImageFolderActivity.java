@@ -1,9 +1,9 @@
 package org.o7planning.saeapplication.Activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
@@ -11,12 +11,16 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.o7planning.saeapplication.Activity.Other.AddFolderDialog;
+import org.o7planning.saeapplication.Database.DataBaseFolderImageManager;
+import org.o7planning.saeapplication.Modele.Folder;
+import org.o7planning.saeapplication.Activity.Other.FolderAdapter;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
+import java.util.List;
+
 public class ImageFolderActivity extends AppCompatActivity {
     public static final int RESULT_CODE = 2;
-
     private ImageButton addImage;
     private ImageButton addFolder;
     private ImageButton accountButton;
@@ -48,18 +52,16 @@ public class ImageFolderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_folder);
-
         this.mUtilisateur = (Profil) getIntent().getSerializableExtra("userObject");
-
-        accountButton = findViewById(R.id.account);
-        logoutButton = findViewById(R.id.logout);
-        addFolder = findViewById(R.id.addFolder);
-        addImage = findViewById(R.id.addImage);
-        foldersRecyclerView = findViewById(R.id.foldersRecyclerView);
-        addFolder.setOnClickListener(
-                new AddFolderDialog(new AlertDialog.Builder(ImageFolderActivity.this),getLayoutInflater(),mUtilisateur)
+        this.accountButton = findViewById(R.id.account);
+        this.logoutButton = findViewById(R.id.logout);
+        this.addFolder = findViewById(R.id.addFolder);
+        this.addImage = findViewById(R.id.addImage);
+        this.foldersRecyclerView = findViewById(R.id.foldersRecyclerView);
+        this.addFolder.setOnClickListener(
+                new AddFolderDialog(this,getLayoutInflater(),mUtilisateur)
         );
-        accountButton.setOnClickListener(new View.OnClickListener() {
+        this.accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent profilActivity = new Intent(ImageFolderActivity.this, ProfilActivity.class);
@@ -67,12 +69,21 @@ public class ImageFolderActivity extends AppCompatActivity {
                 startActivityForResult(profilActivity,ProfilActivity.RESULT_CODE_ACTIVITY);
             }
         });
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        this.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+        refreshView();
+    }
 
+    public void refreshView(){
+        DataBaseFolderImageManager db = new DataBaseFolderImageManager(ImageFolderActivity.this);
+        List<Folder> foldersList = db.getAllFolderImagesByUserId(mUtilisateur.getId());
+        FolderAdapter adapter = new FolderAdapter(foldersList,ImageFolderActivity.this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
+        this.foldersRecyclerView.setAdapter(adapter);
+        this.foldersRecyclerView.setLayoutManager(layoutManager);
     }
 }

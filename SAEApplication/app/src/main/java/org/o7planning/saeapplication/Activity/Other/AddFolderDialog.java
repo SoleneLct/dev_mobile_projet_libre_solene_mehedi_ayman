@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import org.o7planning.saeapplication.Activity.ImageFolderActivity;
+import org.o7planning.saeapplication.Database.DataBaseFolderImageManager;
+import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
@@ -24,13 +24,16 @@ public class AddFolderDialog implements View.OnClickListener{
     private Button createButton;
 
     private View dialogView;
-
     private Profil profil;
 
-    public AddFolderDialog(AlertDialog.Builder builder, LayoutInflater inflater, Profil profil) {
-        View dialogView = inflater.inflate(R.layout.other_add_popup_folder, null);
-        builder.setView(dialogView);
+    private ImageFolderActivity context;
 
+    public AddFolderDialog(ImageFolderActivity context, LayoutInflater inflater, Profil profil) {
+        View dialogView = inflater.inflate(R.layout.other_add_popup_folder, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(dialogView);
+
+        this.profil =profil;
+        this.context = context;
         this.dialogTitle = dialogView.findViewById(R.id.dialog_title);
         this.folderNameLabel = dialogView.findViewById(R.id.folder_name_label);
         this.folderNameInput = dialogView.findViewById(R.id.folder_name_input);
@@ -46,7 +49,7 @@ public class AddFolderDialog implements View.OnClickListener{
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.cancel();
+                createImageFolder();
             }
         });
         alertDialog = builder.create();
@@ -61,6 +64,27 @@ public class AddFolderDialog implements View.OnClickListener{
         if (folderNameInput.getText().toString().trim().isEmpty()) {
             folderNameInput.setError("Merci de remplir tout les champs");
             folderNameInput.requestFocus();
+        }else {
+            DataBaseFolderImageManager db = new DataBaseFolderImageManager(this.context);
+            Folder folder = db.getFolderImage(profil.getId(),
+                    folderNameInput.getText().toString());
+            if(folder == null){
+                folder = new Folder(folderNameInput.getText().toString(),profil.getId()) ;
+                db.addFolderImage(folder);
+                context.refreshView();
+                Toast toast = Toast.makeText(alertDialog.getContext(), "Table ajouter !", Toast.LENGTH_SHORT);
+                toast.show();
+                alertDialog.cancel();
+            }
+            else {
+                Toast toast = Toast.makeText(alertDialog.getContext(),
+                        "Table "+folder.getTitle()+" déjà existante",
+                            Toast.LENGTH_SHORT);
+                toast.show();
+                folderNameInput.setError("Veuillez changer de nom ...");
+                folderNameInput.requestFocus();
+            }
         }
     }
 }
+

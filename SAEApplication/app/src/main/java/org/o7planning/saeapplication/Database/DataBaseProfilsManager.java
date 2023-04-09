@@ -17,7 +17,7 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    public static final String DATABASE_NAME = "ProjectManager";
+    public static final String DATABASE_NAME = "ProfilsManager";
     // Table name: Profils.
     public static final String TABLE_PROFILS = "Profils";
     public static final String COLUMN_PROFILS_ID ="Profils_Id";
@@ -43,7 +43,6 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                 + ")";
         // Execute Script.
         db.execSQL(script);
-        defaultUser();
     }
     public void defaultUser(){
         if(this.getProfilsByNameAndMdp("user","12345")==null){
@@ -121,8 +120,8 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                     cursor.getString(2),
                     cursor.getString(3),
                     cursor.getString(4));
+            cursor.close();
         }
-        cursor.close();
         // return profil
         return profil;
     }
