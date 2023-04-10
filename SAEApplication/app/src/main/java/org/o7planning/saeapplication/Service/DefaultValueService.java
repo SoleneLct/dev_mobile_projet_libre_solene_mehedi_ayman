@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import org.o7planning.saeapplication.R;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,4 +43,5 @@ public class DefaultValueService {
         }
         return stringBuilder.toString();
     }
+
 }

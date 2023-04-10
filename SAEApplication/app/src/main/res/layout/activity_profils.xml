@@ -22,22 +22,24 @@
         <TextView
             android:id="@+id/profil_pseudo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToChange"
+            android:layout_height="70dp"
+            android:ellipsize="end"
             android:gravity="center"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
+            android:maxLines="2"
+            android:text="ToChange"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
         <ImageButton
             android:id="@+id/profil_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:contentDescription="userimage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:contentDescription="userimage"
             android:scaleType="fitCenter"
-            android:layout_marginRight="60dp"
             android:background="@null"
-            android:src="@drawable/user_photo"/>
+            android:src="@drawable/user_photo" />
     </LinearLayout>
 
 <!--    <TextView-->

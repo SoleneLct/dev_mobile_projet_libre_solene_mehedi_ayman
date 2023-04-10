@@ -43,9 +43,6 @@ public class ImageFolderActivity extends AppCompatActivity {
                     Toast.makeText(this, "result code no found", Toast.LENGTH_SHORT).show();
                     ;
             }
-            // Traitement des données renvoyées par l'activité appelée
-            String result = data.getStringExtra("result");
-            // ...
         }
     }
     @Override

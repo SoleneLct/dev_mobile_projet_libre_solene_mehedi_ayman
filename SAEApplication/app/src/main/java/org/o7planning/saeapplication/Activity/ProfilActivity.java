@@ -1,6 +1,8 @@
 package org.o7planning.saeapplication.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +34,9 @@ public class ProfilActivity extends AppCompatActivity {
     private EditText prenom;
     private Button saveButton;
     private TextView quitte;
+    private ImageButton profilImage;
     protected Profil mUtilisateur;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,16 @@ public class ProfilActivity extends AppCompatActivity {
         pseudo = findViewById(R.id.profil_pseudo);
         nom = findViewById(R.id.profil_nom_input);
         prenom = findViewById(R.id.profil_prenom_input);
+        profilImage = findViewById(R.id.profil_image);
 
         pseudo.setText(mUtilisateur.getPseudo());
         nom.setText(mUtilisateur.getNom());
         prenom.setText(mUtilisateur.getPrenom());
-
+        if(mUtilisateur.getPhoto() != null)
+        {
+            Bitmap bm = BitmapFactory.decodeByteArray(mUtilisateur.getPhoto(), 0, mUtilisateur.getPhoto().length);
+            profilImage.setImageBitmap(bm);
+        }
         saveButton = findViewById(R.id.save_or_quit_button);
         quitte = findViewById(R.id.exit);
         quitte.setTextColor(Color.BLUE);

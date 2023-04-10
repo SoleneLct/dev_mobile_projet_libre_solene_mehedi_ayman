@@ -9,6 +9,7 @@ public class Profil implements Serializable {
     private String prenom;
     private String pseudo;
     private String mot_de_passe;
+    private byte[] photo;
 
     public Profil(String pseudo ,String nom, String prenom, String mot_de_passe) {
         this.pseudo = pseudo;
@@ -22,6 +23,21 @@ public class Profil implements Serializable {
         this.nom = nom;
         this.prenom = prenom;
         this.mot_de_passe = mot_de_passe;
+    }
+    public Profil(String pseudo ,String nom, String prenom, String mot_de_passe,byte[] photo) {
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mot_de_passe = mot_de_passe;
+        this.photo = photo;
+    }
+    public Profil(int id,String pseudo ,String nom, String prenom, String mot_de_passe,byte[] photo) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mot_de_passe = mot_de_passe;
+        this.photo = photo;
     }
     public int getId() {
         return id;
@@ -58,5 +74,13 @@ public class Profil implements Serializable {
     }
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

@@ -1,5 +1,9 @@
 package org.o7planning.saeapplication.Modele;
 
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+
 public class Image {
 
     private int mId;
@@ -7,7 +11,6 @@ public class Image {
     private byte[] mImage;
     private int mIdProfils;
     private int mIdTable;
-
 
     public Image(String nom, byte[] image, int mIdTable, int mIdProfils) {
         this.mNom = nom;
@@ -56,5 +59,12 @@ public class Image {
     public void setIdTable(int idTable) {
         this.mIdTable = idTable;
     }
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
 
 }
