@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Nous allons vérifier que vous êtes bien un humain"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" " />
+
+
+    <!-- Première partie : entrer le numéro de téléphone -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Veuillez entrer votre numéro de téléphone :"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/text_num_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:maxLines="1"/>
+
+    <Button
+        android:id="@+id/button_valider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider"/>
+
+    <!-- Deuxième partie : entrer le code SMS -->
+
+    <LinearLayout
+        android:id="@+id/layout_code_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nous avons envoyé un code de vérification à votre numéro de téléphone. Veuillez entrer le code ci-dessous :"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="16dp"/>
+
+        <EditText
+            android:id="@+id/text_code_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Code SMS"
+            android:inputType="number"
+            android:maxLength="6"
+            android:padding="16dp"/>
+
+        <Button
+            android:id="@+id/button_valider_code_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valider"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
