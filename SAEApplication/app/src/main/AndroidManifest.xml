@@ -27,6 +27,9 @@
             android:name=".Activity.ViewAllFolderActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.ViewFolderActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.StoreImageActivity"
             android:exported="false" />
         <activity

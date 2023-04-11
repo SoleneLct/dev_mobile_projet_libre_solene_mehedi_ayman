@@ -107,8 +107,6 @@ public class ImageApiService {
                 imageInfo.put(annotation.getDescription(),annotation.getScore());
             }
         }
-        imageApiService.getVision().close();
-
         return imageInfo;
     }
 }

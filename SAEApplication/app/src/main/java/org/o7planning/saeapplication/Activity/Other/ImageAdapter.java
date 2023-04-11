@@ -1,6 +1,5 @@
 package org.o7planning.saeapplication.Activity.Other;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,29 +12,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.MainActivity;
 import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
 import org.o7planning.saeapplication.Activity.ViewFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
 import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Image;
-import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 import java.util.List;
 import java.util.Optional;
 
-public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FolderViewHolder> {
 
     private ViewAllFolderActivity viewAllFolderActivity;
-    private List<Folder> folders;
+    private List<Image> images;
 
-    private Profil mUtilisateur;
-
-    public FolderAdapter(List<Folder> folders, ViewAllFolderActivity viewAllFolderActivity, Profil mUtilisateur) {
-        this.folders = folders;
+    public ImageAdapter(List<Image> images, ViewFolderActivity viewFolderActivity) {
+        this.images = images;
         this.viewAllFolderActivity = viewAllFolderActivity;
-        this.mUtilisateur = mUtilisateur;
     }
 
     @NonNull
@@ -43,15 +37,14 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
     public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_folder_template, parent, false);
-        FolderViewHolder folderViewHolder = new FolderViewHolder(itemView);
-        return folderViewHolder;
+        return new FolderViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        Folder folder = folders.get(position);
+        Image image = images.get(position);
         Optional<Image> optionalImage = new DataBaseImageManager(this.viewAllFolderActivity)
-                            .getAllImagesByUserIdAndFolder(folder.getUserId(), folder.getId()).stream().findFirst();
+                            .getAllImagesByUserIdAndFolder(image.getIdProfils(), image.getId()).stream().findFirst();
         Image img = null;
         Bitmap bitmap;
         if(optionalImage.isPresent()){
@@ -61,22 +54,13 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             Resources res = this.viewAllFolderActivity.getResources();
             bitmap = BitmapFactory.decodeResource(res, R.drawable.poussiere);
         }
-        holder.folderName.setText(folder.getTitle());
+        holder.folderName.setText(image.getNom());
         holder.folderImage.setImageBitmap(bitmap);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent imageFolderActivity = new Intent(viewAllFolderActivity, ViewFolderActivity.class);
-                imageFolderActivity.putExtra("userObject" ,mUtilisateur);
-                viewAllFolderActivity.startActivity(imageFolderActivity);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return folders.size();
+        return images.size();
     }
 
     public static class FolderViewHolder extends RecyclerView.ViewHolder {

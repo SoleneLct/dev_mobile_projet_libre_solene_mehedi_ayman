@@ -63,10 +63,13 @@ public class CreateFolderWithApiActivity extends AppCompatActivity {
         });
 
         List<String> folderNames = new ArrayList<>();
+
+        ImageApiThread thread = new ImageApiThread(mPhoto,CreateFolderWithApiActivity.this);
+        thread.start();
         try {
-            folderNames = ImageApiService.getImageInfo(mPhoto,CreateFolderWithApiActivity.this).keySet().stream().collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            thread.join();
+            folderNames = thread.getFolderNames();
+        } catch (InterruptedException e) {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, folderNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
