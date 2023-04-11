@@ -97,6 +97,31 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         // return Image
         return image;
     }
+    public Image getImage( String nom,int userId,int folderId) {
+        Log.i(TAG, "MyDatabaseHelper.getImage ... " + userId);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_IMAGES,
+                new String[] {
+                        COLUMN_IMAGES_ID,
+                        COLUMN_IMAGES_NOM,
+                        COLUMN_IMAGES_BLOB,
+                        COLUMN_IMAGES_TABLE,
+                        COLUMN_IMAGES_ID_PROFIL},
+                COLUMN_IMAGES_NOM + "=? and " + COLUMN_IMAGES_TABLE + "=? and " + COLUMN_IMAGES_ID_PROFIL + "=?",
+                new String[] {  nom ,String.valueOf(folderId) ,String.valueOf(userId) }, null, null, null, null);
+        Image image = null;
+        if (cursor != null && cursor.moveToFirst()){
+            image = new Image(
+                    Integer.parseInt(cursor.getString(0)),//id
+                    cursor.getString(1),//nom
+                    cursor.getBlob(2),//Image
+                    Integer.parseInt(cursor.getString(3)),//id table
+                    Integer.parseInt(cursor.getString(4))//id profils
+            );
+        }
+        // return Image
+        return image;
+    }
     public List<Image> getAllImages() {
         Log.i(TAG, "MyDatabaseHelper.getAllImages ... " );
         List<Image> list = new ArrayList<Image>();

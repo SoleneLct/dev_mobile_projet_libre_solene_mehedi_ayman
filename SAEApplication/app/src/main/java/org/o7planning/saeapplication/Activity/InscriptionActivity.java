@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.o7planning.saeapplication.Activity.Other.AddFolderDialog;
 import org.o7planning.saeapplication.Database.DataBaseProfilsManager;
 import org.o7planning.saeapplication.Exception.ChampsNonRempliExecption;
 import org.o7planning.saeapplication.Exception.MotdePasseDifferentException;
@@ -30,8 +29,6 @@ import org.o7planning.saeapplication.Exception.PseudoDejaExistantException;
 import org.o7planning.saeapplication.Modele.Image;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
-
-import java.io.ByteArrayOutputStream;
 
 public class InscriptionActivity extends AppCompatActivity {
     public static final int RESULT_CODE_ACTIVITY = 1;

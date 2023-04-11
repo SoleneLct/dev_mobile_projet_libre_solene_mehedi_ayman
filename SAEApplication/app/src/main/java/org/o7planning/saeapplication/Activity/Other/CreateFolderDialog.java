@@ -8,13 +8,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.o7planning.saeapplication.Activity.ImageFolderActivity;
+import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseFolderImageManager;
 import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
-public class AddFolderDialog implements View.OnClickListener{
+public class CreateFolderDialog implements View.OnClickListener{
 
     private AlertDialog alertDialog ;
     private TextView dialogTitle;
@@ -26,10 +26,10 @@ public class AddFolderDialog implements View.OnClickListener{
     private View dialogView;
     private Profil profil;
 
-    private ImageFolderActivity context;
+    private ViewAllFolderActivity context;
 
-    public AddFolderDialog(ImageFolderActivity context, LayoutInflater inflater, Profil profil) {
-        View dialogView = inflater.inflate(R.layout.other_add_popup_folder, null);
+    public CreateFolderDialog(ViewAllFolderActivity context, LayoutInflater inflater, Profil profil) {
+        View dialogView = inflater.inflate(R.layout.other_new_folder, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(dialogView);
 
         this.profil =profil;

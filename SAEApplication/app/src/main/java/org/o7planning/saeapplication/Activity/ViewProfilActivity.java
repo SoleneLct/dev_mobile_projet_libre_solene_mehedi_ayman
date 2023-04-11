@@ -22,8 +22,7 @@ import org.o7planning.saeapplication.Exception.PseudoDejaExistantException;
 import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
-public class ProfilActivity extends AppCompatActivity {
-
+public class ViewProfilActivity extends AppCompatActivity {
     public static final int RESULT_CODE_ACTIVITY = 3;
 
     private static final int TAILLE_MOT_DE_PASSE = 8;
@@ -41,7 +40,7 @@ public class ProfilActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profils);
+        setContentView(R.layout.activity_view_profils);
         mUtilisateur = (Profil) getIntent().getSerializableExtra("userObject");
 
         pseudo = findViewById(R.id.profil_pseudo);
@@ -145,7 +144,7 @@ public class ProfilActivity extends AppCompatActivity {
         }
 
         if(!pseudo.getText().toString().trim().equals(mUtilisateur.getPseudo())) {
-            Profil user = new DataBaseProfilsManager(ProfilActivity.this)
+            Profil user = new DataBaseProfilsManager(ViewProfilActivity.this)
                     .getProfilsByNameAndMdp(pseudo.getText().toString(), mUtilisateur.getMot_de_passe());
             if (user != null)
                 throw new PseudoDejaExistantException();

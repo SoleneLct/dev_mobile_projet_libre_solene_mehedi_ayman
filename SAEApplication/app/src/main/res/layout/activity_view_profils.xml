@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Activity.ProfilActivity">
+    tools:context=".Activity.ViewProfilActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,10 +32,10 @@
 
         <ImageButton
             android:id="@+id/profil_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="45dp"
             android:contentDescription="userimage"
             android:scaleType="fitCenter"
             android:background="@null"

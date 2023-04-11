@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.o7planning.saeapplication.Modele.Folder;
-import org.o7planning.saeapplication.Modele.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,11 +80,12 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
                     cursor.getString(1),//nom
                     Integer.parseInt(cursor.getString(2))//id profils
             );
+            cursor.close();
         }
         // return folderImage
         return folderImage;
     }
-    public Image getFirstFolderImage(int id) {
+    public Folder getFirstFolderImage(int id) {
         Log.i(TAG, "MyDatabaseHelper.getFolderImage ... " + id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_FOLDER_IMAGE,
@@ -101,9 +101,10 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
                     cursor.getString(1),//nom
                     Integer.parseInt(cursor.getString(2))//id profils
             );
+            cursor.close();
         }
         // return folderImage
-        return null;
+        return folderImage;
     }
 
     public Folder getFolderImage(int userId,String name) {
@@ -123,6 +124,7 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
                     cursor.getString(1),//nom
                     Integer.parseInt(cursor.getString(2))//id profils
             );
+            cursor.close();
         }
         // return folderImage
         return folderImage;
@@ -130,7 +132,7 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
 
     public List<Folder> getAllFolderImages() {
         Log.i(TAG, "MyDatabaseHelper.getAllFolderImages ... " );
-        List<Folder> List = new ArrayList<Folder>();
+        List<Folder> List = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_FOLDER_IMAGE;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -145,13 +147,14 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
                 );
                 List.add(folderImage);
             } while (cursor.moveToNext());
+            cursor.close();
         }
         // return folder list
         return List;
     }
     public List<Folder> getAllFolderImagesByUserId(int userId) {
         Log.i(TAG, "MyDatabaseHelper.getAllFolderImages ... " );
-        List<Folder> List = new ArrayList<Folder>();
+        List<Folder> List = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_FOLDER_IMAGE+" WHERE "+COLUMN_FOLDER_IMAGE_ID_PROFIL+"="+userId+";";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -166,6 +169,7 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
                 );
                 List.add(folderImage);
             } while (cursor.moveToNext());
+            cursor.close();
         }
         // return folder list
         return List;
@@ -208,7 +212,7 @@ public class DataBaseFolderImageManager extends SQLiteOpenHelper {
     public void deleteFolder(Folder folderImage,Context context) {
         Log.i(TAG, "MyDatabaseHelper.deleteImage ... " + folderImage.getTitle() );
         SQLiteDatabase db = this.getWritableDatabase();
-        new DataBaseImageManager(context).deleteAllImageByUserIdAndFolderId(folderImage.getUserId(),folderImage.getId());
+            new DataBaseImageManager(context).deleteAllImageByUserIdAndFolderId(folderImage.getUserId(),folderImage.getId());
         db.delete(TABLE_FOLDER_IMAGE, COLUMN_FOLDER_IMAGE_ID + " = ?",
                 new String[] { String.valueOf(folderImage.getId()) });
         db.close();

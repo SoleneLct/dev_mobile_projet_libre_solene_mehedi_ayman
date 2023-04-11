@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.ImageFolderActivity;
+import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
 import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Image;
@@ -23,26 +23,26 @@ import java.util.Optional;
 
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderViewHolder> {
 
-    private ImageFolderActivity imageFolderActivity;
+    private ViewAllFolderActivity viewAllFolderActivity;
     private List<Folder> folders;
 
-    public FolderAdapter(List<Folder> folders, ImageFolderActivity imageFolderActivity) {
+    public FolderAdapter(List<Folder> folders, ViewAllFolderActivity viewAllFolderActivity) {
         this.folders = folders;
-        this.imageFolderActivity = imageFolderActivity;
+        this.viewAllFolderActivity = viewAllFolderActivity;
     }
 
     @NonNull
     @Override
     public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_folder, parent, false);
+                .inflate(R.layout.item_folder_template, parent, false);
         return new FolderViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
         Folder folder = folders.get(position);
-        Optional<Image> optionalImage = new DataBaseImageManager(this.imageFolderActivity)
+        Optional<Image> optionalImage = new DataBaseImageManager(this.viewAllFolderActivity)
                             .getAllImagesByUserIdAndFolder(folder.getUserId(), folder.getId()).stream().findFirst();
         Image img = null;
         Bitmap bitmap;
@@ -50,7 +50,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             bitmap = BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
         }
         else{
-            Resources res = this.imageFolderActivity.getResources();
+            Resources res = this.viewAllFolderActivity.getResources();
             bitmap = BitmapFactory.decodeResource(res, R.drawable.poussiere);
         }
         holder.folderName.setText(folder.getTitle());
