@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.MainActivity;
 import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
 import org.o7planning.saeapplication.Activity.ViewFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
@@ -30,12 +29,12 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
     private ViewAllFolderActivity viewAllFolderActivity;
     private List<Folder> folders;
 
-    private Profil mUtilisateur;
+    private Profil userObject;
 
-    public FolderAdapter(List<Folder> folders, ViewAllFolderActivity viewAllFolderActivity, Profil mUtilisateur) {
+    public FolderAdapter(List<Folder> folders, ViewAllFolderActivity viewAllFolderActivity, Profil userObject) {
         this.folders = folders;
         this.viewAllFolderActivity = viewAllFolderActivity;
-        this.mUtilisateur = mUtilisateur;
+        this.userObject = userObject;
     }
 
     @NonNull
@@ -49,26 +48,26 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        Folder folder = folders.get(position);
+        Folder folderObject = folders.get(position);
         Optional<Image> optionalImage = new DataBaseImageManager(this.viewAllFolderActivity)
-                            .getAllImagesByUserIdAndFolder(folder.getUserId(), folder.getId()).stream().findFirst();
-        Image img = null;
+                            .getAllImagesByUserIdAndFolder(userObject.getId(), folderObject.getId()).stream().findFirst();
         Bitmap bitmap;
         if(optionalImage.isPresent()){
-            bitmap = BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
+            bitmap = BitmapFactory.decodeByteArray(optionalImage.get().getImage(), 0, optionalImage.get().getImage().length);
         }
         else{
             Resources res = this.viewAllFolderActivity.getResources();
-            bitmap = BitmapFactory.decodeResource(res, R.drawable.poussiere);
+            bitmap = BitmapFactory.decodeResource(res, R.drawable.default_floder);
         }
-        holder.folderName.setText(folder.getTitle());
+        holder.folderName.setText(folderObject.getTitle());
         holder.folderImage.setImageBitmap(bitmap);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent imageFolderActivity = new Intent(viewAllFolderActivity, ViewFolderActivity.class);
-                imageFolderActivity.putExtra("userObject" ,mUtilisateur);
+                imageFolderActivity.putExtra("userObject" , userObject);
+                imageFolderActivity.putExtra("folderObject" ,folderObject);
                 viewAllFolderActivity.startActivity(imageFolderActivity);
             }
         });

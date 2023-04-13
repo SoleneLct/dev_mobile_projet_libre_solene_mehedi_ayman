@@ -12,48 +12,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
 import org.o7planning.saeapplication.Activity.ViewFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
-import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Image;
 import org.o7planning.saeapplication.R;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FolderViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private ViewAllFolderActivity viewAllFolderActivity;
+    private ViewFolderActivity viewFolderActivity;
     private List<Image> images;
 
     public ImageAdapter(List<Image> images, ViewFolderActivity viewFolderActivity) {
         this.images = images;
-        this.viewAllFolderActivity = viewAllFolderActivity;
+        this.viewFolderActivity = viewFolderActivity;
     }
 
     @NonNull
     @Override
-    public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_folder_template, parent, false);
-        return new FolderViewHolder(itemView);
+                .inflate(R.layout.item_image_template, parent, false);
+        return new ImageViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Image image = images.get(position);
-        Optional<Image> optionalImage = new DataBaseImageManager(this.viewAllFolderActivity)
+        Optional<Image> optionalImage = new DataBaseImageManager(this.viewFolderActivity)
                             .getAllImagesByUserIdAndFolder(image.getIdProfils(), image.getId()).stream().findFirst();
-        Image img = null;
-        Bitmap bitmap;
-        if(optionalImage.isPresent()){
-            bitmap = BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
-        }
-        else{
-            Resources res = this.viewAllFolderActivity.getResources();
-            bitmap = BitmapFactory.decodeResource(res, R.drawable.poussiere);
-        }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length);
         holder.folderName.setText(image.getNom());
         holder.folderImage.setImageBitmap(bitmap);
     }
@@ -63,11 +53,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FolderViewHo
         return images.size();
     }
 
-    public static class FolderViewHolder extends RecyclerView.ViewHolder {
+    public static class ImageViewHolder extends RecyclerView.ViewHolder {
         public ImageView folderImage;
         public TextView folderName;
 
-        public FolderViewHolder(View view) {
+        public ImageViewHolder(View view) {
             super(view);
             folderImage = view.findViewById(R.id.folder_image);
             folderName = view.findViewById(R.id.folder_name);

@@ -1,6 +1,8 @@
 package org.o7planning.saeapplication.Modele;
 
-public class Folder {
+import java.io.Serializable;
+
+public class Folder implements Serializable {
 
     private int id;
     private String title;

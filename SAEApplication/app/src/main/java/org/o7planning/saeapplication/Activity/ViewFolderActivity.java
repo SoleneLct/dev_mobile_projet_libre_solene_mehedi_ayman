@@ -10,9 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.Other.FolderAdapter;
 import org.o7planning.saeapplication.Activity.Other.ImageAdapter;
-import org.o7planning.saeapplication.Database.DataBaseFolderImageManager;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
 import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Image;
@@ -26,8 +24,9 @@ public class ViewFolderActivity extends AppCompatActivity {
     private ImageButton addImage;
     private ImageButton accountButton;
     private ImageButton logoutButton;
-    private RecyclerView foldersRecyclerView;
+    private RecyclerView imagesRecyclerView;
     private Profil mUtilisateur;
+    private Folder mFolder;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -53,12 +52,14 @@ public class ViewFolderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_folder);
+        setContentView(R.layout.activity_view_folder);
         this.mUtilisateur = (Profil) getIntent().getSerializableExtra("userObject");
+        this.mFolder = (Folder) getIntent().getSerializableExtra("folderObject");
+
         this.accountButton = findViewById(R.id.account);
         this.logoutButton = findViewById(R.id.logout);
         this.addImage = findViewById(R.id.addImage);
-        this.foldersRecyclerView = findViewById(R.id.foldersRecyclerView);
+        this.imagesRecyclerView = findViewById(R.id.foldersRecyclerView);
         this.accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,10 +87,11 @@ public class ViewFolderActivity extends AppCompatActivity {
 
     public void refreshView(){
         DataBaseImageManager db = new DataBaseImageManager(ViewFolderActivity.this);
-        List<Image> imageList = db.getAllImagesByUserId(mUtilisateur.getId());
+        List<Image> imageList = db.getAllImagesByUserIdAndFolder(mUtilisateur.getId(),mFolder.getId());
+        List<Image> img = db.getAllImages();
         ImageAdapter adapter = new ImageAdapter(imageList, this);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
-        this.foldersRecyclerView.setAdapter(adapter);
-        this.foldersRecyclerView.setLayoutManager(layoutManager);
+        this.imagesRecyclerView.setAdapter(adapter);
+        this.imagesRecyclerView.setLayoutManager(layoutManager);
     }
 }

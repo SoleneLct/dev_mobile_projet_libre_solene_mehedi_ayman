@@ -15,9 +15,9 @@ import java.util.List;
 public class DataBaseImageManager extends SQLiteOpenHelper {
     private static final String TAG = "SQLite";
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     // Database Name
-    private static final String DATABASE_NAME = "ImageManager";
+    private static final String DATABASE_NAME = "ImagesManager";
 
     // Table name: Image
     private static final String TABLE_IMAGES = "Images";
@@ -25,7 +25,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     private static final String COLUMN_IMAGES_NOM ="Images_Nom";
     private static final String COLUMN_IMAGES_BLOB = "Images_Blob";
 
-    private static final String COLUMN_IMAGES_TABLE ="Images_Table ";
+    private static final String COLUMN_IMAGES_FOLDER_ID ="Images_FOLDER_ID";
     private static final String COLUMN_IMAGES_ID_PROFIL = "Images_Profil_Id";
 
     public DataBaseImageManager(Context context) {
@@ -36,13 +36,13 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
-        String userForeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+"),";
-        String folderforeinKey= "FOREIGN KEY ("+COLUMN_IMAGES_TABLE+" ) REFERENCES "+DataBaseFolderImageManager.TABLE_FOLDER_IMAGE+"("+DataBaseFolderImageManager.COLUMN_FOLDER_IMAGE_ID+")";
+        String userForeinKey= " FOREIGN KEY ("+COLUMN_IMAGES_ID_PROFIL+" ) REFERENCES "+DataBaseProfilsManager.TABLE_PROFILS+"("+DataBaseProfilsManager.COLUMN_PROFILS_ID+") ,";
+        String folderforeinKey= " FOREIGN KEY ("+ COLUMN_IMAGES_FOLDER_ID +" ) REFERENCES "+DataBaseFolderImageManager.TABLE_FOLDER_IMAGE+"("+DataBaseFolderImageManager.COLUMN_FOLDER_IMAGE_ID+")";
         String script = "CREATE TABLE " + TABLE_IMAGES + "("
                 + COLUMN_IMAGES_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_IMAGES_NOM + " TEXT,"
-                + COLUMN_IMAGES_BLOB + "BINARY,"
-                + COLUMN_IMAGES_TABLE + "INTEGER,"
+                + COLUMN_IMAGES_BLOB + " BLOB,"
+                + COLUMN_IMAGES_FOLDER_ID + " INTEGER,"
                 + COLUMN_IMAGES_ID_PROFIL + " INTEGER,"
                 + userForeinKey
                 + folderforeinKey
@@ -63,13 +63,13 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addImage ... " + image.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGES_TABLE, image.getIdTable());
+        values.put(COLUMN_IMAGES_FOLDER_ID, image.getIdTable());
         values.put(COLUMN_IMAGES_BLOB, image.getImage());
         values.put(COLUMN_IMAGES_NOM, image.getNom());
         values.put(COLUMN_IMAGES_ID_PROFIL, image.getIdProfils());
         // Inserting Row
-        db.insert(TABLE_IMAGES, null, values);
-        // Closing database connection
+        long longue = db.insert(TABLE_IMAGES, null, values);
+        // Closing database connection1
         db.close();
     }
     public Image getImage(int id) {
@@ -80,7 +80,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                                 COLUMN_IMAGES_ID,
                                 COLUMN_IMAGES_NOM,
                                 COLUMN_IMAGES_BLOB,
-                                COLUMN_IMAGES_TABLE,
+                                COLUMN_IMAGES_FOLDER_ID,
                                 COLUMN_IMAGES_ID_PROFIL},
                 COLUMN_IMAGES_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
@@ -105,9 +105,9 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                         COLUMN_IMAGES_ID,
                         COLUMN_IMAGES_NOM,
                         COLUMN_IMAGES_BLOB,
-                        COLUMN_IMAGES_TABLE,
+                        COLUMN_IMAGES_FOLDER_ID,
                         COLUMN_IMAGES_ID_PROFIL},
-                COLUMN_IMAGES_NOM + "=? and " + COLUMN_IMAGES_TABLE + "=? and " + COLUMN_IMAGES_ID_PROFIL + "=?",
+                COLUMN_IMAGES_NOM + "=? and " + COLUMN_IMAGES_FOLDER_ID + "=? and " + COLUMN_IMAGES_ID_PROFIL + "=?",
                 new String[] {  nom ,String.valueOf(folderId) ,String.valueOf(userId) }, null, null, null, null);
         Image image = null;
         if (cursor != null && cursor.moveToFirst()){
@@ -172,11 +172,10 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
     }
     public List<Image> getAllImagesByUserIdAndFolder(int userId,int folderId) {
         Log.i(TAG, "MyDatabaseHelper.getAllImagesByUserId ... "+userId );
-        List<Image> List = new ArrayList<Image>();
+        List<Image> list = new ArrayList<Image>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_IMAGES +
-                                " WHERE "+COLUMN_IMAGES_ID_PROFIL+"="+userId +
-                                " and "+COLUMN_IMAGES_TABLE+"="+folderId+";";
+                                " WHERE "+COLUMN_IMAGES_ID_PROFIL+"="+userId +" and "+ COLUMN_IMAGES_FOLDER_ID +"="+folderId+";";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
@@ -189,12 +188,13 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
                         Integer.parseInt(cursor.getString(3)),//id table
                         Integer.parseInt(cursor.getString(4))//id profils
                 );
-                List.add(image);
+                list.add(image);
             } while (cursor.moveToNext());
         }
         // return folder list
-        return List;
+        return list;
     }
+
     public int getImagesCount() {
         Log.i(TAG, "MyDatabaseHelper.getImagesCount ... " );
         String countQuery = "SELECT * FROM " + TABLE_IMAGES;
@@ -209,7 +209,7 @@ public class DataBaseImageManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.updateImage ... " + image.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGES_TABLE, image.getIdTable());
+        values.put(COLUMN_IMAGES_FOLDER_ID, image.getIdTable());
         values.put(COLUMN_IMAGES_NOM, image.getNom());
         values.put(COLUMN_IMAGES_BLOB, image.getImage());
         values.put(COLUMN_IMAGES_ID_PROFIL, image.getIdProfils());

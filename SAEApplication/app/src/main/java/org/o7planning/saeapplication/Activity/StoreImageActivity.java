@@ -79,7 +79,7 @@ public class StoreImageActivity extends AppCompatActivity {
             {
                 if (imageValide()){
                     DataBaseImageManager db = new DataBaseImageManager(StoreImageActivity.this);
-                    Image image = new Image(nom.toString().trim(), mPhoto,mFolder.getId(),mUtilisateur.getId());
+                    Image image = new Image(nom.getText().toString().trim(), mPhoto,mFolder.getId(),mUtilisateur.getId());
                     db.addImage(image);
                     Toast toast = Toast.makeText(StoreImageActivity.this, "Votre image à bien été sauvegarder", Toast.LENGTH_SHORT);
                     toast.show();

@@ -53,12 +53,6 @@ public class Image {
     public void setImage(byte[] image) {
         this.mImage = image;
     }
-    public void setIdProfils(int idProfils) {
-        this.mIdProfils = idProfils;
-    }
-    public void setIdTable(int idTable) {
-        this.mIdTable = idTable;
-    }
 
     public static byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
