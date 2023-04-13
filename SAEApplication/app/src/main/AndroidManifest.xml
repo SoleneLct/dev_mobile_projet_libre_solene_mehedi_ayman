@@ -18,6 +18,12 @@
         android:theme="@style/Theme.SAEApplication"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.ViewImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ViewImageActivity$ImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ViewProfilActivity"
             android:exported="false" />
         <activity

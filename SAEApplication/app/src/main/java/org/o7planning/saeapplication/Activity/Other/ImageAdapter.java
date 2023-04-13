@@ -1,5 +1,6 @@
 package org.o7planning.saeapplication.Activity.Other;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.o7planning.saeapplication.Activity.ViewFolderActivity;
+import org.o7planning.saeapplication.Activity.ViewImageActivity;
+import org.o7planning.saeapplication.Activity.ViewProfilActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
 import org.o7planning.saeapplication.Modele.Image;
 import org.o7planning.saeapplication.R;
@@ -46,6 +49,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Bitmap bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length);
         holder.folderName.setText(image.getNom());
         holder.folderImage.setImageBitmap(bitmap);
+        holder.folderImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profilActivity = new Intent(viewFolderActivity, ViewImageActivity.class);
+                profilActivity.putExtra("imageObject" ,image);
+                viewFolderActivity.startActivity(profilActivity);
+            }
+        });
     }
 
     @Override

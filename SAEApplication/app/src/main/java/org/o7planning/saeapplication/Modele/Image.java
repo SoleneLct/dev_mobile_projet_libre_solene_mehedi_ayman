@@ -3,8 +3,9 @@ package org.o7planning.saeapplication.Modele;
 import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
-public class Image {
+public class Image implements Serializable {
 
     private int mId;
     private String mNom;
