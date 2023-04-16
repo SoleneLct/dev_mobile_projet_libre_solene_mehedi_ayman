@@ -44,7 +44,6 @@ public class InscriptionActivity extends AppCompatActivity {
     private ImageButton addImage;
     private Button inscriptionButton;
     private TextView lienActiviteConnection;
-    protected Profil mUtilisateur;
     private byte[] photo = null;
 
     private void finishActivity(){
@@ -154,12 +153,11 @@ public class InscriptionActivity extends AppCompatActivity {
         String nom = this.nom.getText().toString().trim();
         String prenom = this.prenom.getText().toString().trim();
         String motDePasse = this.motDePasse.getText().toString();
-        this.mUtilisateur = new Profil(pseudo,nom,prenom,motDePasse,photo);
+        Profil mUtilisateur = new Profil(pseudo,nom,prenom,motDePasse,photo);
 
-        DataBaseProfilsManager db = new DataBaseProfilsManager(this);
-        db.addProfils(mUtilisateur);
-        Toast toast = Toast.makeText(this, "Vous êtes bien inscrit", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(InscriptionActivity.this, NumTelActivity.class);
+        intent.putExtra("userObject" ,mUtilisateur);
+        startActivityForResult(intent, NumTelActivity.RESULT_CODE_ACTIVITY);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -208,6 +206,14 @@ public class InscriptionActivity extends AppCompatActivity {
                     this.photo = Image.bitmapToByteArray(imageBitmap);
                     this.addImage.setImageBitmap(imageBitmap);
                     break;
+                case NumTelActivity.RESULT_CODE_ACTIVITY:
+                    boolean result = data.getBooleanExtra(NumTelActivity.MODIFICATION_INTENT_EXTRA,false);
+                    if(result){
+                        Toast.makeText(InscriptionActivity.this, "Vous êtes bien inscrit", Toast.LENGTH_SHORT).show();
+                        finishActivity();
+                    }else {
+                        Toast.makeText(InscriptionActivity.this, "Vous n'êtes pas inscrit", Toast.LENGTH_SHORT).show();
+                    }
                 default:
                     Toast.makeText(this, "result code no found", Toast.LENGTH_SHORT).show();
             }

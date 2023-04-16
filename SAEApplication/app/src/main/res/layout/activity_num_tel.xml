@@ -4,9 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="16dp">
 
-
+    <LinearLayout
+        android:id="@+id/layout_num_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +50,8 @@
         android:layout_height="wrap_content"
         android:text="Valider"/>
 
+    </LinearLayout>
+
     <!-- Deuxième partie : entrer le code SMS -->
 
     <LinearLayout
@@ -74,9 +83,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Valider"/>
-
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:linksClickable="true"
+        android:text="Quitter"/>
 </LinearLayout>
 
 
