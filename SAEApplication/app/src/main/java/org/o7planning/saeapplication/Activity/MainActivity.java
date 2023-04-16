@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     String mdp = motDePasse.getText().toString().trim();
                     Profil user = new DataBaseProfilsManager(MainActivity.this).getProfilsByNameAndMdp(ps,mdp);
                     if(user != null){
-                        Intent imageFolderActivity = new Intent(MainActivity.this, ImageFolderActivity.class);
+                        Intent imageFolderActivity = new Intent(MainActivity.this, ViewAllFolderActivity.class);
                         imageFolderActivity.putExtra("userObject" ,user);
                         motDePasse.setText("");
                         startActivity(imageFolderActivity);

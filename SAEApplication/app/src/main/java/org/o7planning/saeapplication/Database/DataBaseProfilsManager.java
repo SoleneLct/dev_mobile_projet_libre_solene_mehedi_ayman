@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class DataBaseProfilsManager extends SQLiteOpenHelper {
     private static final String TAG = "SQLite";
-    // Database Version
-    private static final int DATABASE_VERSION = 1;
+    public static final String COLUMN_PROFILS_PHOTO ="Profils_Photo";
     // Database Name
     public static final String DATABASE_NAME = "ProfilsManager";
     // Table name: Profils.
@@ -25,21 +24,27 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
     public static final String COLUMN_PROFILS_NOM ="Profils_Nom";
     public static final String COLUMN_PROFILS_MPD ="Profils_Mot_de_Passe";
     public static final String COLUMN_PROFILS_PRENOM ="Profils_Prenom";
+    // Database Version
+    private static final int DATABASE_VERSION = 2;
+
 
     public DataBaseProfilsManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     // Create table
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
+        String photo =  COLUMN_PROFILS_PHOTO + " BLOB NULL ";
         String script = "CREATE TABLE " + TABLE_PROFILS + "("
                 + COLUMN_PROFILS_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_PROFILS_PSEUDO + " TEXT,"
                 + COLUMN_PROFILS_NOM + " TEXT,"
                 + COLUMN_PROFILS_PRENOM + " TEXT,"
-                + COLUMN_PROFILS_MPD + " TEXT"
+                + COLUMN_PROFILS_MPD + " TEXT,"
+                + photo
                 + ")";
         // Execute Script.
         db.execSQL(script);
@@ -68,6 +73,7 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addProfil ... " + profil.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_PROFILS_PHOTO, profil.getPhoto());
         values.put(COLUMN_PROFILS_PSEUDO, profil.getPseudo());
         values.put(COLUMN_PROFILS_PRENOM, profil.getPrenom());
         values.put(COLUMN_PROFILS_NOM, profil.getNom());
@@ -86,7 +92,8 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                         COLUMN_PROFILS_PSEUDO,
                         COLUMN_PROFILS_NOM,
                         COLUMN_PROFILS_PRENOM,
-                        COLUMN_PROFILS_MPD},
+                        COLUMN_PROFILS_MPD,
+                        COLUMN_PROFILS_PHOTO},
                 COLUMN_PROFILS_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()){
@@ -95,7 +102,8 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
-                    cursor.getString(4));
+                    cursor.getString(4),
+                    cursor.getBlob(5));
         }
         // return profil
         return profil;
@@ -105,11 +113,12 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Profil profil = null;
         Cursor cursor = db.query(TABLE_PROFILS,
-                new String[] { COLUMN_PROFILS_ID,
-                        COLUMN_PROFILS_PSEUDO,
-                        COLUMN_PROFILS_NOM,
-                        COLUMN_PROFILS_PRENOM,
-                        COLUMN_PROFILS_MPD},
+                    new String[] { COLUMN_PROFILS_ID,
+                            COLUMN_PROFILS_PSEUDO,
+                            COLUMN_PROFILS_NOM,
+                            COLUMN_PROFILS_PRENOM,
+                            COLUMN_PROFILS_MPD,
+                            COLUMN_PROFILS_PHOTO},
                 COLUMN_PROFILS_PSEUDO + "=? and " + COLUMN_PROFILS_MPD + "=?",
                 new String[] { pseudo, mdp }, null, null, null, null);
 
@@ -119,7 +128,8 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
-                    cursor.getString(4));
+                    cursor.getString(4),
+                    cursor.getBlob(5));
             cursor.close();
         }
         // return profil
@@ -135,12 +145,13 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Profil profil = profil = new Profil(
+                Profil profil = new Profil(
                         Integer.parseInt(cursor.getString(0)),
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3),
-                        cursor.getString(4));;
+                        cursor.getString(4),
+                        cursor.getBlob(5));
                 // Adding profil to list
                 list.add(profil);
             } while (cursor.moveToNext());
@@ -162,7 +173,8 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.updateProfil ... " + profil.getNom());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
+        if(profil.getPhoto() != null)
+            values.put(COLUMN_PROFILS_PHOTO, profil.getPhoto());
         values.put(COLUMN_PROFILS_PSEUDO, profil.getPseudo());
         values.put(COLUMN_PROFILS_PRENOM, profil.getPrenom());
         values.put(COLUMN_PROFILS_NOM, profil.getNom());
@@ -180,5 +192,13 @@ public class DataBaseProfilsManager extends SQLiteOpenHelper {
         db.delete(TABLE_PROFILS, COLUMN_PROFILS_ID + " = ?",
                 new String[] { String.valueOf(profil.getId()) });
         db.close();
+    }
+
+    public void dropDb(){
+        Log.i(TAG, "MyDatabaseHelper.getProfilsCount ... " );
+        String countQuery = "DROP TABLE IF EXISTS " + TABLE_PROFILS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
     }
 }

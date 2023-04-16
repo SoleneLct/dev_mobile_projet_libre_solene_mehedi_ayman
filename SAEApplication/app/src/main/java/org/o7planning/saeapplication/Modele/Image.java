@@ -1,13 +1,17 @@
 package org.o7planning.saeapplication.Modele;
 
-public class Image {
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+
+public class Image implements Serializable {
 
     private int mId;
     private String mNom;
     private byte[] mImage;
     private int mIdProfils;
     private int mIdTable;
-
 
     public Image(String nom, byte[] image, int mIdTable, int mIdProfils) {
         this.mNom = nom;
@@ -50,11 +54,12 @@ public class Image {
     public void setImage(byte[] image) {
         this.mImage = image;
     }
-    public void setIdProfils(int idProfils) {
-        this.mIdProfils = idProfils;
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
-    public void setIdTable(int idTable) {
-        this.mIdTable = idTable;
-    }
+
 
 }

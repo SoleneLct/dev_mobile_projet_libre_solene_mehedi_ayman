@@ -1,5 +1,6 @@
 package org.o7planning.saeapplication.Activity.Other;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.o7planning.saeapplication.Activity.ImageFolderActivity;
+import org.o7planning.saeapplication.Activity.ViewAllFolderActivity;
+import org.o7planning.saeapplication.Activity.ViewFolderActivity;
 import org.o7planning.saeapplication.Database.DataBaseImageManager;
 import org.o7planning.saeapplication.Modele.Folder;
 import org.o7planning.saeapplication.Modele.Image;
+import org.o7planning.saeapplication.Modele.Profil;
 import org.o7planning.saeapplication.R;
 
 import java.util.List;
@@ -23,38 +26,51 @@ import java.util.Optional;
 
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderViewHolder> {
 
-    private ImageFolderActivity imageFolderActivity;
+    private ViewAllFolderActivity viewAllFolderActivity;
     private List<Folder> folders;
 
-    public FolderAdapter(List<Folder> folders, ImageFolderActivity imageFolderActivity) {
+    private Profil userObject;
+
+    public FolderAdapter(List<Folder> folders, ViewAllFolderActivity viewAllFolderActivity, Profil userObject) {
         this.folders = folders;
-        this.imageFolderActivity = imageFolderActivity;
+        this.viewAllFolderActivity = viewAllFolderActivity;
+        this.userObject = userObject;
     }
 
     @NonNull
     @Override
     public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_folder, parent, false);
-        return new FolderViewHolder(itemView);
+                .inflate(R.layout.item_folder_template, parent, false);
+        FolderViewHolder folderViewHolder = new FolderViewHolder(itemView);
+        return folderViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        Folder folder = folders.get(position);
-        Optional<Image> optionalImage = new DataBaseImageManager(this.imageFolderActivity)
-                            .getAllImagesByUserIdAndFolder(folder.getUserId(), folder.getId()).stream().findFirst();
-        Image img = null;
+        Folder folderObject = folders.get(position);
+        Optional<Image> optionalImage = new DataBaseImageManager(this.viewAllFolderActivity)
+                            .getAllImagesByUserIdAndFolder(userObject.getId(), folderObject.getId()).stream().findFirst();
         Bitmap bitmap;
         if(optionalImage.isPresent()){
-            bitmap = BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
+            bitmap = BitmapFactory.decodeByteArray(optionalImage.get().getImage(), 0, optionalImage.get().getImage().length);
         }
         else{
-            Resources res = this.imageFolderActivity.getResources();
-            bitmap = BitmapFactory.decodeResource(res, R.drawable.poussiere);
+            Resources res = this.viewAllFolderActivity.getResources();
+            bitmap = BitmapFactory.decodeResource(res, R.drawable.default_floder);
         }
-        holder.folderName.setText(folder.getTitle());
+        holder.folderName.setText(folderObject.getTitle());
         holder.folderImage.setImageBitmap(bitmap);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent imageFolderActivity = new Intent(viewAllFolderActivity, ViewFolderActivity.class);
+                imageFolderActivity.putExtra("userObject" , userObject);
+                imageFolderActivity.putExtra("folderObject" ,folderObject);
+                viewAllFolderActivity.startActivity(imageFolderActivity);
+            }
+        });
     }
 
     @Override

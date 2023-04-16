@@ -16,25 +16,25 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="20dp"
-        android:padding="15dp">
+        android:padding="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Inscription"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:textSize="34sp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
+            android:textStyle="bold"/>
+
         <ImageButton
             android:id="@+id/addImage"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:contentDescription="userimage"
+            android:layout_width="126dp"
+            android:layout_height="198dp"
             android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:layout_marginRight="60dp"
             android:background="@null"
-            android:src="@drawable/user_photo"/>
+            android:contentDescription="userimage"
+            android:scaleType="fitCenter"
+            android:src="@drawable/take_picture" />
     </LinearLayout>
 
 

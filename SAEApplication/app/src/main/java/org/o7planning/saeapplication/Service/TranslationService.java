@@ -1,5 +1,7 @@
 package org.o7planning.saeapplication.Service;
 
+import android.content.Context;
+
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 
@@ -9,8 +11,8 @@ public class TranslationService {
     private static TranslationService _TranslationService = null;
 
 
-    private TranslationService(){
-        this.translateOptions = TranslateOptions.newBuilder().setApiKey(DefaultValueService.keyTranslate()).build();
+    private TranslationService(Context context){
+        this.translateOptions = TranslateOptions.newBuilder().setApiKey(DefaultValueService.keyTranslate(context)).build();
         this.translate = translateOptions.getService();
     }
     public TranslateOptions getTranslateOptions() {
@@ -19,14 +21,14 @@ public class TranslationService {
     public Translate getTranslate() {
         return translate;
     }
-    public static TranslationService getTranslationService(){
+    public static TranslationService getTranslationService(Context context){
         if(_TranslationService == null)
-            _TranslationService = new TranslationService();
+            _TranslationService = new TranslationService(context);
         return _TranslationService;
     }
-    public static String Translation(String text) {
+    public static String Translation(String text ,Context context) {
         return TranslationService.
-                getTranslationService().
+                getTranslationService(context).
                 getTranslate().
                 translate(text, Translate.TranslateOption.targetLanguage("fr")).
                 getTranslatedText();
