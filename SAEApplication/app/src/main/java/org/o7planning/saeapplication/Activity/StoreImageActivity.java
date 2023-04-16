@@ -130,8 +130,10 @@ public class StoreImageActivity extends AppCompatActivity {
                     this.image.setImageBitmap(imageBitmap);
                     break;
                 case CreateFolderWithApiActivity.RESULT_CODE_ACTIVITY:
-//                    Boolean hello = data.getBooleanExtra(ViewProfilActivity.MODIFICATION_INTENT_EXTRA,false);
-                    refreshFolder();
+                    Boolean hello = data.getBooleanExtra(CreateFolderWithApiActivity.MODIFICATION_INTENT_EXTRA,false);
+                    if(hello){
+                        refreshFolder();
+                    }
                     break;
                 default:
                     Toast.makeText(this, "result code no found", Toast.LENGTH_SHORT).show();
@@ -151,10 +153,11 @@ public class StoreImageActivity extends AppCompatActivity {
         if(folderNames.size() > 1){
             createFirstFolderButton.setVisibility(View.INVISIBLE);
             spinner.setVisibility(View.VISIBLE);
+
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, folderNames);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
-            spinner.setSelection(1);
+            spinner.setSelection(folderNames.size());
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

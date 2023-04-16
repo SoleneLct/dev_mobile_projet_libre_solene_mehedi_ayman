@@ -41,8 +41,9 @@ public class ViewAllFolderActivity extends AppCompatActivity{
                     break;
                 case StoreImageActivity.RESULT_CODE_ACTIVITY:
                     hello = data.getBooleanExtra(ViewProfilActivity.MODIFICATION_INTENT_EXTRA,false);
-                    if(hello)
+                    if(hello){
                         refreshView();
+                    }
                     break;
                 default:
                     Toast.makeText(this, "result code no found", Toast.LENGTH_SHORT).show();
